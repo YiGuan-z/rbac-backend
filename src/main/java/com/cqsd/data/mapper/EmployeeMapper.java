@@ -15,5 +15,7 @@ public interface EmployeeMapper {
     int updateByPrimaryKey(Employee record);
 	
 	Employee selectByUserName(String username);
+	
+	void deleteByBeathId(List<Long> ids);
 //    List<>
 }

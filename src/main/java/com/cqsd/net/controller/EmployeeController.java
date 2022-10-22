@@ -6,6 +6,7 @@ import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.vo.JsonResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 @RestController
@@ -46,6 +47,11 @@ public class EmployeeController {
 	public JsonResult<?> deleteById(@PathVariable("id") Long id) {
 		service.deleteById(id);
 		return JsonResult.success(id);
+	}
+	@DeleteMapping("/user")
+	public JsonResult<?> deleteBatch(@RequestBody ArrayList<Long> ids){
+		service.deleteByIds(ids);
+		return JsonResult.success(ids.toArray());
 	}
 	
 	

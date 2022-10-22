@@ -45,18 +45,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public PageResult<Employee> findByQueryObject(QueryObject qo) {
 		final Page<Employee> page = PageHelper.startPage(qo.current(), qo.limit());
+		mapper.selectAll();
 		return PageResult.of(qo.current(), qo.limit(), page.getTotal(), page);
 	}
 	
 	@Override
 	public String login(String username, String password) {
 		Employee employee = mapper.selectByUserName(username);
-		Objects.requireNonNull(employee,"用户不存在");
-		if (employee.getPassword().equals(password)){
+		Objects.requireNonNull(employee, "用户不存在");
+		if (employee.getPassword().equals(password)) {
 			final var token = TokenManager.createToken();
 			TokenManager.addUser(token, UserInfo.of(employee));
 			return token;
 		}
 		throw new NullPointerException("用户密码错误");
+	}
+	
+	@Override
+	public void deleteByIds(List<Long> ids) {
+		mapper.deleteByBeathId(ids);
 	}
 }
