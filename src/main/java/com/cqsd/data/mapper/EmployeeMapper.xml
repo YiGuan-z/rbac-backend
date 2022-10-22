@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqsd.data.mapper.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="com.cqsd.data.entry.Employee">
+    <id column="id" property="id" />
+    <result column="username" property="username" />
+    <result column="name" property="name" />
+    <result column="password" property="password" />
+    <result column="email" property="email" />
+    <result column="age" property="age" />
+    <result column="admin" property="admin" />
+    <result column="dept_id" property="dept_id" />
+    <result column="hireDate" property="hireDate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey">
+    delete from employee
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+    insert into employee (username, name, password, email, age, admin, dept_id, 
+      hireDate)
+    values (#{username}, #{name}, #{password}, #{email}, #{age}, #{admin}, #{dept_id}, 
+      #{hireDate})
+  </insert>
+  <update id="updateByPrimaryKey">
+    update employee
+    set username = #{username},
+      name = #{name},
+      password = #{password},
+      email = #{email},
+      age = #{age},
+      admin = #{admin},
+      dept_id = #{dept_id},
+      hireDate = #{hireDate}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select id, username, name, password, email, age, admin, dept_id, hireDate
+    from employee
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, name, password, email, age, admin, dept_id, hireDate
+    from employee
+  </select>
+
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select id, username, name, password, email, age, admin, dept_id, hireDate from employee where username=#{username}
+    </select>
+    <!--  <resultMap id="BaseResultMap" type="com.cqsd.data.entry.Employee">-->
+<!--    <id column="id" property="id" />-->
+<!--    <result column="username" property="username" />-->
+<!--    <result column="name" property="name" />-->
+<!--    <result column="password" property="password" />-->
+<!--    <result column="email" property="email" />-->
+<!--    <result column="age" property="age" />-->
+<!--    <result column="admin" property="admin" />-->
+<!--    <result column="dept_id" property="dept_id" />-->
+<!--    <result column="hireDate" property="hireDate" />-->
+<!--  </resultMap>-->
+<!--  <delete id="deleteByPrimaryKey">-->
+<!--    delete from employee-->
+<!--    where id = #{id}-->
+<!--  </delete>-->
+<!--  <insert id="insert" keyProperty="id" useGeneratedKeys="true">-->
+<!--    insert into employee (username, name, password, email, age, admin, dept_id, -->
+<!--      hireDate)-->
+<!--    values (#{username}, #{name}, #{password}, #{email}, #{age}, #{admin}, #{dept_id}, -->
+<!--      #{hireDate})-->
+<!--  </insert>-->
+<!--  <update id="updateByPrimaryKey">-->
+<!--    update employee-->
+<!--    set username = #{username},-->
+<!--      name = #{name},-->
+<!--      password = #{password},-->
+<!--      email = #{email},-->
+<!--      age = #{age},-->
+<!--      admin = #{admin},-->
+<!--      dept_id = #{dept_id},-->
+<!--      hireDate = #{hireDate}-->
+<!--    where id = #{id}-->
+<!--  </update>-->
+<!--  <select id="selectByPrimaryKey" resultMap="BaseResultMap">-->
+<!--    select id, username, name, password, email, age, admin, dept_id, hireDate-->
+<!--    from employee-->
+<!--    where id = #{id}-->
+<!--  </select>-->
+<!--  <select id="selectAll" resultMap="BaseResultMap">-->
+<!--    select id, username, name, password, email, age, admin, dept_id, hireDate-->
+<!--    from employee-->
+<!--  </select>-->
+</mapper>
