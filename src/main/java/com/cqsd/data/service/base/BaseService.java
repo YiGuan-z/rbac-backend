@@ -1,9 +1,7 @@
 package com.cqsd.data.service.base;
 
 
-import com.cqsd.data.entry.Employee;
 import com.cqsd.data.qo.QueryObject;
-import com.cqsd.data.vo.PageResult;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;

@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cqsd.data.mapper.DepartmentMapper">
-    <resultMap id="BaseResultMap" type="com.cqsd.data.entry.Department">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cqsd.data.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.cqsd.data.entry.Role">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="sn" property="sn"/>
     </resultMap>
     <delete id="deleteByPrimaryKey">
         delete
-        from sys_department
+        from sys_role
         where id = #{id}
     </delete>
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_department (name, sn)
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_role (name, sn)
         values (#{name}, #{sn})
     </insert>
     <update id="updateByPrimaryKey">
-        update sys_department
+        update sys_role
         <set>
             <if test="name != null and name != ''">
                 name=#{name},
@@ -29,18 +29,21 @@
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         select id, name, sn
-        from sys_department
+        from sys_role
         where id = #{id}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select id, name, sn
-        from sys_department
+        from role
     </select>
-    <select id="findByQueryObject" resultMap="BaseResultMap">
-        select id, name, sn
-        from sys_department
+
+    <select id="selectForList" resultMap="BaseResultMap">
+        select id,
+               name,
+               sn
+                   form sys_role
         <where>
-            <if test="keyword != null">
+            <if test="keyword != null and keyword != ''">
                 (name like concat('%', #{keyword}, '%') or sn like concat('%', #{keyword}, '%'))
             </if>
         </where>

@@ -3,9 +3,7 @@ package com.cqsd.data.service;
 import com.cqsd.data.entry.Employee;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.base.BaseService;
-import com.cqsd.data.vo.JsonResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface EmployeeService extends BaseService<Employee, QueryObject> {

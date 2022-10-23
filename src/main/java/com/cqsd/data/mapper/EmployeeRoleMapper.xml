@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cqsd.data.mapper.EmployeeRoleMapper">
+    <resultMap id="BaseResultMap" type="com.cqsd.data.entry.EmployeeRole">
+        <result column="employee_id" property="employee_id"/>
+        <result column="role_id" property="role_id"/>
+    </resultMap>
+    <insert id="insert">
+        insert into sys_employee_role (employee_id, role_id)
+        values (#{employee_id}, #{role_id})
+    </insert>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select employee_id, role_id
+        from sys_employee_role
+    </select>
+
+    <select id="selectByQueryObject" resultMap="BaseResultMap">
+        select employee_id, role_id
+        from sys_employee_role
+        <where>
+            <if test="employee_id != null">
+                employee_id = #{employee_id}
+            </if>
+            <if test="role_id != null">
+                and role_id = #{employee_id}
+            </if>
+        </where>
+    </select>
+
+</mapper>

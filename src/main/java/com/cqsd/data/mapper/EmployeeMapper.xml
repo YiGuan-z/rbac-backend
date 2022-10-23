@@ -13,43 +13,64 @@
     <result column="hireDate" property="hireDate" />
   </resultMap>
   <delete id="deleteByPrimaryKey">
-    delete from employee
+    delete from sys_employee
     where id = #{id}
   </delete>
   <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-    insert into employee (username, name, password, email, age, admin, dept_id, 
+    insert into sys_employee (username, name, password, email, age, admin, dept_id, 
       hireDate)
     values (#{username}, #{name}, #{password}, #{email}, #{age}, #{admin}, #{dept_id}, 
       #{hireDate})
   </insert>
   <update id="updateByPrimaryKey">
-    update employee
-    set username = #{username},
-      name = #{name},
-      password = #{password},
-      email = #{email},
-      age = #{age},
-      admin = #{admin},
-      dept_id = #{dept_id},
-      hireDate = #{hireDate}
+    update sys_employee
+    <set>
+      <if test="name != null and name != ''">
+        name=#{name},
+      </if>
+      <if test="name != null and name != ''">
+        name = #{name},
+      </if>
+      <if test="password != null and password != ''">
+        password = #{password},
+      </if>
+      <if test="username != null and username != ''">
+        username = #{username},
+      </if>
+      <if test="email != null and email != ''">
+        email = #{email},
+      </if>
+      <if test="age != null">
+        age = #{age},
+      </if>
+      <if test="admin != null">
+        admin = #{admin},
+      </if>
+      <if test="dept_id != null">
+        dept_id = #{dept_id},
+      </if>
+      <if test="hireDate != null">
+        hireDate = #{hireDate},
+      </if>
+    </set>
     where id = #{id}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select id, username, name, password, email, age, admin, dept_id, hireDate
-    from employee
+    from sys_employee
     where id = #{id}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, username, name, password, email, age, admin, dept_id, hireDate
-    from employee
+    from sys_employee
   </select>
 
   <select id="selectByUserName" resultMap="BaseResultMap">
-    select id, username, name, password, email, age, admin, dept_id, hireDate from employee where username=#{username}
+    select id, username, name, password, email, age, admin, dept_id, hireDate from sys_employee where username=#{username}
     </select>
 
   <delete id="deleteByBeathId">
-    delete from employee where id in
+    delete from sys_employee where id in
       <foreach collection="list" open="(" close=")" separator="," item="item">
         #{item}
       </foreach>

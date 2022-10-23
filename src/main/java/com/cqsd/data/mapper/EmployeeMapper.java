@@ -1,9 +1,12 @@
 package com.cqsd.data.mapper;
 
 import com.cqsd.data.entry.Employee;
+import com.cqsd.data.mapper.base.BaseMapper;
+import com.cqsd.data.qo.QueryObject;
+
 import java.util.List;
 
-public interface EmployeeMapper {
+public interface EmployeeMapper extends BaseMapper<Employee, QueryObject> {
     int deleteByPrimaryKey(Long id);
 
     int insert(Employee record);
@@ -17,5 +20,4 @@ public interface EmployeeMapper {
 	Employee selectByUserName(String username);
 	
 	void deleteByBeathId(List<Long> ids);
-//    List<>
 }

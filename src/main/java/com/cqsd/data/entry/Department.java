@@ -1,7 +1,15 @@
 package com.cqsd.data.entry;
 
-import java.util.StringJoiner;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.StringJoiner;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Department {
     /** */
     private Long id;
@@ -11,30 +19,6 @@ public class Department {
 
     /** */
     private String sn;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSn() {
-        return sn;
-    }
-
-    public void setSn(String sn) {
-        this.sn = sn;
-    }
     
     @Override
     public String toString() {

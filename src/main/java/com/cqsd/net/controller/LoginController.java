@@ -2,7 +2,6 @@ package com.cqsd.net.controller;
 
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.utils.TokenManager;
-import com.cqsd.data.utils.UserInfo;
 import com.cqsd.data.vo.JsonResult;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
