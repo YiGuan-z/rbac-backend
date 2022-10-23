@@ -4,6 +4,7 @@ import com.cqsd.data.entry.Employee;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.vo.JsonResult;
+import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/employee")
-public class EmployeeController {
+public class EmployeeController extends BaseController<Employee,QueryObject> {
 	private final EmployeeService service;
 	
 	public EmployeeController(EmployeeService service) {
@@ -19,7 +20,8 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/user")
-	public JsonResult<?> getEmployeeByQueryObject(QueryObject queryObject) {
+	@Override
+	public JsonResult<?> getByQueryObject(QueryObject queryObject) {
 		final var result = service.findByQueryObject(queryObject);
 		return JsonResult.success(result);
 	}
@@ -30,6 +32,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/user")
+	@Override
 	public JsonResult<?> saveOrUpdate(@RequestBody Employee employee) {
 		try {
 			if (Objects.isNull(employee.getId())) {

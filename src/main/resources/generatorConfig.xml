@@ -81,7 +81,7 @@
                 value=""/> -->
         </javaClientGenerator>
 
-        <table tableName="employee_role">
+        <table tableName="sys_role_menu">
             <property name="useActualColumnNames" value="true"/>
             <property name="constructorBased" value="false"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
