@@ -1,8 +1,10 @@
 package com.cqsd.data.service.base;
 
 
+import com.cqsd.data.entry.Employee;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.vo.PageResult;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public  interface BaseService<T,R extends QueryObject>  {
 	default T findById(Long id){
 		throw new RuntimeException("该方法未实现");
 	}
-	default PageResult<T> findByQueryObject(R qo){
+	default PageInfo<T> findByQueryObject(R qo){
 		throw new RuntimeException("该方法未实现");
 	}
 	default List<T> selectAll(R queryObject){

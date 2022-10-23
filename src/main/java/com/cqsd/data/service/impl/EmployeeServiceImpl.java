@@ -6,9 +6,9 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.utils.UserInfo;
-import com.cqsd.data.vo.PageResult;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,10 +43,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	@Override
-	public PageResult<Employee> findByQueryObject(QueryObject qo) {
+	public PageInfo<Employee> findByQueryObject(QueryObject qo) {
 		final Page<Employee> page = PageHelper.startPage(qo.current(), qo.limit());
 		mapper.selectAll();
-		return PageResult.of(qo.current(), qo.limit(), page.getTotal(), page);
+		return PageInfo.of(page);
 	}
 	
 	@Override

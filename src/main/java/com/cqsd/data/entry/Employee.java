@@ -1,5 +1,7 @@
 package com.cqsd.data.entry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.StringJoiner;
 
@@ -14,6 +16,7 @@ public class Employee {
     private String name;
 
     /** */
+    @JsonIgnore
     private String password;
 
     /** */

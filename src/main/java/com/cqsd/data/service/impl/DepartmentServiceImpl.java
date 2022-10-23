@@ -8,6 +8,7 @@ import com.cqsd.data.vo.JsonResult;
 import com.cqsd.data.vo.PageResult;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -42,10 +43,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 	
 	@Override
-	public PageResult<Department> findByQueryObject(QueryObject qo) {
+	public PageInfo<Department> findByQueryObject(QueryObject qo) {
 		final Page<Department> page = PageHelper.startPage(qo.current(), qo.limit());
 		mapper.findByQueryObject(qo);
-		return PageResult.of(qo.current(), qo.limit(), page.getTotal(), page);
+		return PageInfo.of(page);
 	}
 	
 	@Override
