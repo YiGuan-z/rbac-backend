@@ -10,7 +10,6 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//TODO 没写 controller
 public class SysMenus {
     /** 主键id*/
     private Long id;

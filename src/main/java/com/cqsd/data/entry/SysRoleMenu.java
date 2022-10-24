@@ -9,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-//TODO 没写 controller
 public class SysRoleMenu {
     /** 员工 id*/
     private Long role_id;

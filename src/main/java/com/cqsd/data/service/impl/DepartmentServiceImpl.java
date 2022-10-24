@@ -4,56 +4,14 @@ import com.cqsd.data.entry.Department;
 import com.cqsd.data.mapper.DepartmentMapper;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.DepartmentService;
-import com.cqsd.data.vo.JsonResult;
-import com.cqsd.data.vo.PageResult;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.cqsd.data.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
 
 @Service
-public class DepartmentServiceImpl implements DepartmentService {
-	private final DepartmentMapper mapper;
+public class DepartmentServiceImpl extends BaseServiceImpl<Department,QueryObject> implements DepartmentService {
 	
 	public DepartmentServiceImpl(DepartmentMapper mapper) {
-		this.mapper = mapper;
-	}
-	
-	@Override
-	public void save(Department record) {
-		mapper.insert(record);
-	}
-	
-	@Override
-	public void deleteById(Long id) {
-		mapper.deleteByPrimaryKey(id);
-	}
-	
-	@Override
-	public void updateById(Department record) {
-		mapper.updateByPrimaryKey(record);
-	}
-	
-	@Override
-	public Department findById(Long id) {
-		return mapper.selectByPrimaryKey(id);
-	}
-	
-	@Override
-	public PageInfo<Department> findByQueryObject(QueryObject qo) {
-		final Page<Department> page = PageHelper.startPage(qo.current(), qo.limit());
-		mapper.findByQueryObject(qo);
-		return PageInfo.of(page);
-	}
-	
-	@Override
-	public Page<Department> selectAll(QueryObject queryObject) {
-		Page<Department> page = PageHelper.startPage(queryObject.current(), queryObject.limit());
-//		mapper.selectAll();
-		mapper.findByQueryObject(queryObject);
-		return page;
+		super(mapper);
 	}
 }
