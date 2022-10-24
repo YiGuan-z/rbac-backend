@@ -1,28 +1,30 @@
-package com.cqsd.data.service.impl;
+package com.cqsd.data.vo;
 
+import com.alibaba.fastjson2.JSON;
 import com.cqsd.data.entry.SysMenus;
 import com.cqsd.data.mapper.SysMenusMapper;
-import com.cqsd.data.qo.QueryObject;
-import com.cqsd.data.service.SysMenuService;
-import com.cqsd.data.service.base.BaseServiceImpl;
-import com.cqsd.data.vo.TreeData;
-import org.springframework.stereotype.Service;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-@Service
-public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> implements SysMenuService {
-	public SysMenuServiceImpl(SysMenusMapper mapper) {
-		super(mapper);
-	}
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration("classpath:/application.xml")
+class TreeDataTest {
+	@Autowired
+	private SysMenusMapper mapper;
 	
-	@Override
-	public List<TreeData> getTreeData() {
+	@Test
+	void testGetTree() {
 		var rowData = mapper.selectAll();
-		rowData = rowData.stream()
-				.filter(v -> v.getType() == 0 || v.getType() == 1)
-				.collect(Collectors.toList());
+		rowData = rowData.stream().filter(v -> v.getType() == 0 || v.getType() == 1).collect(Collectors.toList());
 		final var cacheMap = rowData.stream()
 				.map(sysMenus -> TreeData.of(sysMenus.getId(),
 						sysMenus.getTitle(),
@@ -38,7 +40,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> i
 				))
 				.collect(Collectors.toMap(TreeData::getId, v -> v));
 		
-		return rowData.stream()
+		final var treeDataList = rowData.stream()
 				.filter(v -> {
 					if (v.getParent_id() != null) {
 						//通过父id找到系统管理
@@ -52,5 +54,11 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> i
 					}
 					return v.getParent_id() == null;
 				}).map(v -> cacheMap.get(v.getId())).toList();
+		final var string = JSON.toJSONString(treeDataList);
+		
+		System.out.println(string);
+//		rowData.forEach(System.out::println);
 	}
+	
+	
 }

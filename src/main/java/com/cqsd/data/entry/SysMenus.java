@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.StringJoiner;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -46,4 +48,22 @@ public class SysMenus {
 
     /** 更新时间*/
     private Date updated_time;
+    
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", SysMenus.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("title='" + title + "'")
+                .add("icon='" + icon + "'")
+                .add("path='" + path + "'")
+                .add("type=" + type)
+                .add("expression='" + expression + "'")
+                .add("component='" + component + "'")
+                .add("status=" + status)
+                .add("parent_id=" + parent_id)
+                .add("seq=" + seq)
+                .add("created_time=" + created_time)
+                .add("updated_time=" + updated_time)
+                .toString();
+    }
 }

@@ -8,15 +8,15 @@
     </resultMap>
     <delete id="deleteByPrimaryKey">
         delete
-        from sys_role
+        from sys_roles
         where id = #{id}
     </delete>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_role (name, sn)
+        insert into sys_roles (name, sn)
         values (#{name}, #{sn})
     </insert>
     <update id="updateByPrimaryKey">
-        update sys_role
+        update sys_roles
         <set>
             <if test="name != null and name != ''">
                 name=#{name},
@@ -29,19 +29,19 @@
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         select id, name, sn
-        from sys_role
+        from sys_roles
         where id = #{id}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select id, name, sn
-        from role
+        from sys_roles
     </select>
 
     <select id="selectForList" resultMap="BaseResultMap">
         select id,
                name,
                sn
-                   form sys_role
+                   form sys_roles
         <where>
             <if test="keyword != null and keyword != ''">
                 (name like concat('%', #{keyword}, '%') or sn like concat('%', #{keyword}, '%'))

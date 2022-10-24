@@ -4,7 +4,7 @@ import com.cqsd.data.qo.QueryObject;
 
 import java.util.List;
 
-public interface BaseMapper<T,Q extends QueryObject> {
+public interface BaseMapper<T, Q extends QueryObject> {
 	default int deleteByPrimaryKey(Long id) {
 		throw new RuntimeException("方法未实现");
 	}

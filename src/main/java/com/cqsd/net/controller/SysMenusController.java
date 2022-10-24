@@ -1,15 +1,14 @@
 package com.cqsd.net.controller;
 
 import com.cqsd.data.entry.SysMenus;
-import com.cqsd.data.entry.SysRoleMenu;
-import com.cqsd.data.mapper.SysMenusMapper;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.SysMenuService;
-import com.cqsd.data.service.SysRoleService;
-import com.cqsd.data.service.base.BaseService;
+import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 import static com.cqsd.data.vo.JsonResult.*;
 
@@ -28,7 +27,7 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	 * @return
 	 */
 	@Override
-	@GetMapping("/menus")
+	@GetMapping("/menu")
 	public JsonResult<?> getByQueryObject(QueryObject queryObject) {
 		return success(service.findByQueryObject(queryObject));
 	}
@@ -40,7 +39,7 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	 * @return
 	 */
 	@Override
-	@GetMapping("/menus/{id}")
+	@GetMapping("/menu/{id}")
 	public JsonResult<?> getById(@PathVariable("id") Long id) {
 		return success(service.findById(id));
 	}
@@ -54,7 +53,11 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	@Override
 	@PostMapping("/menu")
 	public JsonResult<?> saveOrUpdate(@RequestBody SysMenus record) {
-		service.save(record);
+		if (Objects.isNull(record.getId())){
+			service.save(record);
+		}else {
+			service.updateById(record);
+		}
 		return success(record);
 	}
 	
@@ -69,5 +72,14 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	public JsonResult<?> deleteById(@PathVariable("id") Long id) {
 		service.deleteById(id);
 		return success(id);
+	}
+	
+	@GetMapping("/menu/routers")
+	public JsonResult<?> getRouter(@RequestHeader(value = TokenManager.TOKEN_NAME, required = false) String token) {
+		if (service instanceof SysMenuService menuService) {
+			final var treeData = menuService.getTreeData();
+			return success(treeData);
+		}
+		return failed("方法未实现");
 	}
 }
