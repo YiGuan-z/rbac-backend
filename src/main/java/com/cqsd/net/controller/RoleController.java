@@ -12,10 +12,9 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/role")
 public class RoleController extends BaseController<Role, QueryObject> {
-	private final RoleService service;
 	
 	public RoleController(RoleService service) {
-		this.service = service;
+		super(service);
 	}
 	
 	@GetMapping("/info")
@@ -29,14 +28,14 @@ public class RoleController extends BaseController<Role, QueryObject> {
 	}
 	
 	@PostMapping("/info")
-	public JsonResult<?> saveOrUpdate(@RequestBody Role department) {
+	public JsonResult<?> saveOrUpdate(@RequestBody Role record) {
 		try {
-			if (Objects.isNull(department.getId())) {
-				service.save(department);
+			if (Objects.isNull(record.getId())) {
+				service.save(record);
 			} else {
-				service.updateById(department);
+				service.updateById(record);
 			}
-			return JsonResult.success(department);
+			return JsonResult.success(record);
 		} catch (Exception e) {
 			return JsonResult.failed(e.getMessage());
 		}

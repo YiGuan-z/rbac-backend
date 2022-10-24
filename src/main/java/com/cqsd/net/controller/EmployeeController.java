@@ -5,6 +5,7 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
+import org.aspectj.lang.reflect.NoSuchPointcutException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,10 +14,9 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController extends BaseController<Employee,QueryObject> {
-	private final EmployeeService service;
 	
 	public EmployeeController(EmployeeService service) {
-		this.service = service;
+		super(service);
 	}
 	
 	@GetMapping("/user")
@@ -33,14 +33,14 @@ public class EmployeeController extends BaseController<Employee,QueryObject> {
 	
 	@PostMapping("/user")
 	@Override
-	public JsonResult<?> saveOrUpdate(@RequestBody Employee employee) {
+	public JsonResult<?> saveOrUpdate(@RequestBody Employee record) {
 		try {
-			if (Objects.isNull(employee.getId())) {
-				service.save(employee);
+			if (Objects.isNull(record.getId())) {
+				service.save(record);
 			} else {
-				service.updateById(employee);
+				service.updateById(record);
 			}
-			return JsonResult.success(employee);
+			return JsonResult.success(record);
 		} catch (Exception e) {
 			return JsonResult.failed(e.getMessage());
 		}
@@ -53,8 +53,11 @@ public class EmployeeController extends BaseController<Employee,QueryObject> {
 	}
 	@DeleteMapping("/user")
 	public JsonResult<?> deleteBatch(@RequestBody ArrayList<Long> ids){
-		service.deleteByIds(ids);
-		return JsonResult.success(ids.toArray());
+		if (service instanceof EmployeeService employeeService){
+			employeeService.deleteByIds(ids);
+			return JsonResult.success(ids.toArray());
+		}
+		throw new RuntimeException("方法未实现");
 	}
 	
 	

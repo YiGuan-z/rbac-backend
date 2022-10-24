@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeRoleController extends BaseController<EmployeeRole, QueryObject> {
-	private final EmployeeRoleService service;
 	
 	public EmployeeRoleController(EmployeeRoleService service) {
-		this.service = service;
+		super(service);
 	}
 	
 	@Override
@@ -26,19 +25,11 @@ public class EmployeeRoleController extends BaseController<EmployeeRole, QueryOb
 		return JsonResult.success(service.findByQueryObject(queryObject));
 	}
 	
-	@Override
-	public JsonResult<?> getById(Long id) {
-		return null;
-	}
 	@PostMapping("/role")
 	@Override
-	public JsonResult<?> saveOrUpdate(EmployeeRole department) {
-		service.save(department);
-		return JsonResult.success(department);
+	public JsonResult<?> saveOrUpdate(EmployeeRole record) {
+		service.save(record);
+		return JsonResult.success(record);
 	}
 	
-	@Override
-	public JsonResult<?> deleteById(Long id) {
-		return null;
-	}
 }

@@ -11,11 +11,10 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/deparment")
-public class DeparmentController extends BaseController<Department,QueryObject> {
-	private final DepartmentService service;
+public class DeparmentController extends BaseController<Department, QueryObject> {
 	
 	public DeparmentController(DepartmentService service) {
-		this.service = service;
+		super(service);
 	}
 	
 	@GetMapping("/dept")
@@ -29,20 +28,21 @@ public class DeparmentController extends BaseController<Department,QueryObject> 
 	}
 	
 	@PostMapping("/dept")
-	public JsonResult<?> saveOrUpdate(@RequestBody Department department){
+	public JsonResult<?> saveOrUpdate(@RequestBody Department record) {
 		try {
-			if (Objects.isNull(department.getId())){
-				service.save(department);
-			}else {
-				service.updateById(department);
+			if (Objects.isNull(record.getId())) {
+				service.save(record);
+			} else {
+				service.updateById(record);
 			}
-			return JsonResult.success(department);
-		}catch (Exception e){
+			return JsonResult.success(record);
+		} catch (Exception e) {
 			return JsonResult.failed(e.getMessage());
 		}
 	}
+	
 	@DeleteMapping("/dept/{id}")
-	public JsonResult<?> deleteById(@PathVariable("id")Long id){
+	public JsonResult<?> deleteById(@PathVariable("id") Long id) {
 		service.deleteById(id);
 		return JsonResult.success(id);
 	}
