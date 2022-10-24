@@ -1,8 +1,12 @@
 package com.cqsd.net.controller;
 
+import com.cqsd.data.entry.SysMenus;
 import com.cqsd.data.entry.SysRoleMenu;
+import com.cqsd.data.mapper.SysMenusMapper;
 import com.cqsd.data.qo.QueryObject;
+import com.cqsd.data.service.SysMenuService;
 import com.cqsd.data.service.SysRoleService;
+import com.cqsd.data.service.base.BaseService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +15,9 @@ import static com.cqsd.data.vo.JsonResult.*;
 
 @RequestMapping("/system")
 @RestController
-public class SysMenusController extends BaseController<SysRoleMenu, QueryObject> {
+public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	
-	public SysMenusController(SysRoleService service) {
+	public SysMenusController(SysMenuService service) {
 		super(service);
 	}
 	
@@ -49,7 +53,7 @@ public class SysMenusController extends BaseController<SysRoleMenu, QueryObject>
 	 */
 	@Override
 	@PostMapping("/menu")
-	public JsonResult<?> saveOrUpdate(@RequestBody SysRoleMenu record) {
+	public JsonResult<?> saveOrUpdate(@RequestBody SysMenus record) {
 		service.save(record);
 		return success(record);
 	}
