@@ -44,13 +44,13 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> i
 		return rowData.stream()
 				.filter(v -> {
 					if (v.getParent_id() != null) {
-						//通过父id找到系统管理
+						//通过父id找爹
 						final var treeData = cacheMap.get(v.getParent_id());
-						//将当前对象设置进去
+						//将当前儿子设置进去
 						final var data = cacheMap.get(v.getId());
 						treeData.getChildren().add(data);
 						//设置父对象属性
-						treeData.setParent(TreeData.Parent.of(data.getId(), data.getTitle()));
+						treeData.setParent(TreeData.Parent.of(treeData.getId(), treeData.getTitle()));
 					}
 					return v.getParent_id() == null;
 				}).map(v -> cacheMap.get(v.getId())).toList();

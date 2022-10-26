@@ -52,7 +52,7 @@ class TreeDataTest {
 						final var data = cacheMap.get(v.getId());
 						treeData.getChildren().add(data);
 						//设置父对象属性
-						final var parent = new TreeData.Parent(data.getId(), data.getTitle());
+						final var parent = new TreeData.Parent(treeData.getId(), treeData.getTitle());
 						treeData.setParent(parent);
 					}
 					return v.getParent_id() == null;
