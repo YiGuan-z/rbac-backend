@@ -8,6 +8,8 @@ import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static com.cqsd.data.vo.JsonResult.*;
@@ -21,15 +23,18 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	}
 	
 	/**
-	 * 通过查询对象查询
+	 * 查询树结构
 	 *
-	 * @param queryObject
-	 * @return
+	 *
+	 * @return treeData
 	 */
-	@Override
 	@GetMapping("/menu")
-	public JsonResult<?> getByQueryObject(QueryObject queryObject) {
-		return success(service.findByQueryObject(queryObject));
+	public JsonResult<?> getByQueryObject() {
+		if (service instanceof SysMenuService menuService) {
+			final var treeData = menuService.getAllTreeData();
+			return success(treeData);
+		}
+		return failed("方法未实现");
 	}
 	
 	/**
@@ -53,9 +58,9 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	@Override
 	@PostMapping("/menu")
 	public JsonResult<?> saveOrUpdate(@RequestBody SysMenus record) {
-		if (Objects.isNull(record.getId())){
+		if (Objects.isNull(record.getId())) {
 			service.save(record);
-		}else {
+		} else {
 			service.updateById(record);
 		}
 		return success(record);
@@ -81,5 +86,15 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 			return success(treeData);
 		}
 		return failed("方法未实现");
+	}
+	
+	@PatchMapping("/menu/{id}")
+	public JsonResult<?> changeStatus(@PathVariable("id") Long id) {
+		if (service instanceof SysMenuService menuService) {
+			final var sysMenus = menuService.changeStat(id);
+			return success(sysMenus.getStatus());
+		}
+		return failed("方法未实现");
+		
 	}
 }

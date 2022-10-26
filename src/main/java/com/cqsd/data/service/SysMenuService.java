@@ -9,4 +9,8 @@ import java.util.List;
 
 public interface SysMenuService extends BaseService<SysMenus, QueryObject> {
 	List<TreeData> getTreeData();
+	
+	SysMenus changeStat(Long id);
+	
+	List<TreeData> getAllTreeData();
 }

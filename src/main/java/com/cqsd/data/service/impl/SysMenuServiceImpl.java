@@ -8,6 +8,8 @@ import com.cqsd.data.service.base.BaseServiceImpl;
 import com.cqsd.data.vo.TreeData;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,11 +20,12 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> i
 	}
 	
 	@Override
-	public List<TreeData> getTreeData() {
+	public List<TreeData> getAllTreeData() {
 		var rowData = mapper.selectAll();
-		rowData = rowData.stream()
-				.filter(v -> v.getType() == 0 || v.getType() == 1)
-				.collect(Collectors.toList());
+		return getTree(rowData);
+	}
+	
+	private List<TreeData> getTree(List<SysMenus> rowData) {
 		final var cacheMap = rowData.stream()
 				.map(sysMenus -> TreeData.of(sysMenus.getId(),
 						sysMenus.getTitle(),
@@ -47,10 +50,33 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> i
 						final var data = cacheMap.get(v.getId());
 						treeData.getChildren().add(data);
 						//设置父对象属性
-						final var parent = new TreeData.Parent(data.getId(), data.getTitle());
-						treeData.setParent(parent);
+						treeData.setParent(TreeData.Parent.of(data.getId(), data.getTitle()));
 					}
 					return v.getParent_id() == null;
 				}).map(v -> cacheMap.get(v.getId())).toList();
+	}
+	
+	@Override
+	public List<TreeData> getTreeData() {
+		var rowData = mapper.selectAll();
+		rowData = rowData.stream()
+				.filter(v -> v.getType() == 0 || v.getType() == 1)
+				.filter(v -> v.getStatus() == 0)
+				.collect(Collectors.toList());
+		return getTree(rowData);
+	}
+	
+	@Override
+	public SysMenus changeStat(Long id) {
+		final var menus = mapper.selectByPrimaryKey(id);
+		menus.setStatus(menus.getStatus() == 0 ? 1 : 0);
+		mapper.updateByPrimaryKey(menus);
+		return menus;
+	}
+	
+	@Override
+	public void updateById(SysMenus record) {
+		record.setUpdated_time(new Date());
+		super.updateById(record);
 	}
 }

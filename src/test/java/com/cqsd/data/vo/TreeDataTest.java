@@ -22,9 +22,12 @@ class TreeDataTest {
 	private SysMenusMapper mapper;
 	
 	@Test
-	void testGetTree() {
+	void testGetTree() throws InterruptedException {
 		var rowData = mapper.selectAll();
-		rowData = rowData.stream().filter(v -> v.getType() == 0 || v.getType() == 1).collect(Collectors.toList());
+		rowData = rowData.stream()
+				.filter(v -> v.getType() == 0 || v.getType() == 1)
+				.filter(v -> v.getStatus() == 0)
+				.collect(Collectors.toList());
 		final var cacheMap = rowData.stream()
 				.map(sysMenus -> TreeData.of(sysMenus.getId(),
 						sysMenus.getTitle(),
@@ -57,6 +60,7 @@ class TreeDataTest {
 		final var string = JSON.toJSONString(treeDataList);
 		
 		System.out.println(string);
+
 //		rowData.forEach(System.out::println);
 	}
 	
