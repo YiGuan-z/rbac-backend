@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.cqsd.data.vo.JsonResult.*;
 
@@ -36,7 +37,11 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 		}
 		return failed("方法未实现");
 	}
-	
+	@GetMapping("/menus")
+	public JsonResult<?> queryAll(){
+		final var ret = service.selectAll(null).stream().filter(v -> v.getType() != 2).toList();
+		return JsonResult.success(ret);
+	}
 	/**
 	 * 获取一个资源
 	 *
