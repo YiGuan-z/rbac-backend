@@ -20,4 +20,6 @@ public interface EmployeeMapper extends BaseMapper<Employee, QueryObject> {
 	Employee selectByUserName(String username);
 	
 	void deleteByBeathId(List<Long> ids);
+	
+	List<String> selectExpression(Long id);
 }

@@ -1,6 +1,7 @@
 package com.cqsd.data.utils;
 
 import com.cqsd.data.entry.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -19,24 +20,13 @@ public class UserInfo {
 	private String name;
 	private String avatar;
 	private List<String> roles = new ArrayList<>();
-	
-	public void setRoles(String roles) {
-		this.roles.add(roles);
-	}
-	
-	private UserInfo(Long id, String username, String name, String avatar) {
-		this.id = id;
-		this.username = username;
-		this.name = name;
-		this.avatar = avatar;
-	}
+	@JsonIgnore
+	private Boolean admin;
 	
 	private UserInfo() {
 	}
 	
-	public static UserInfo of(Long id, String username, String name, String avatar) {
-		return new UserInfo(id, username, name, avatar);
-	}
+	
 	
 	public static UserInfo of(Employee obj) {
 		final UserInfo info = new UserInfo();

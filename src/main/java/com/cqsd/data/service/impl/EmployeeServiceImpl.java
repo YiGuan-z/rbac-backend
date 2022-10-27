@@ -26,7 +26,6 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject> 
 			if (employee.getPassword().equals(password)) {
 				final var token = TokenManager.createToken();
 				final var userInfo = UserInfo.of(employee);
-				userInfo.setRoles(Objects.isNull(employee.getAdmin()) ? "employee" : "admin");
 				TokenManager.addUser(token, userInfo);
 				return token;
 			}

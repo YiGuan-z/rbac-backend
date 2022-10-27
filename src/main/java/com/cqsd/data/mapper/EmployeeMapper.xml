@@ -1,78 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cqsd.data.mapper.EmployeeMapper">
-  <resultMap id="BaseResultMap" type="com.cqsd.data.entry.Employee">
-    <id column="id" property="id" />
-    <result column="username" property="username" />
-    <result column="name" property="name" />
-    <result column="password" property="password" />
-    <result column="email" property="email" />
-    <result column="age" property="age" />
-    <result column="admin" property="admin" />
-    <result column="dept_id" property="dept_id" />
-    <result column="hireDate" property="hireDate" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey">
-    delete from sys_employee
-    where id = #{id}
-  </delete>
-  <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-    insert into sys_employee (username, name, password, email, age, admin, dept_id, 
-      hireDate)
-    values (#{username}, #{name}, #{password}, #{email}, #{age}, #{admin}, #{dept_id}, 
-      #{hireDate})
-  </insert>
-  <update id="updateByPrimaryKey">
-    update sys_employee
-    <set>
-      <if test="name != null and name != ''">
-        name=#{name},
-      </if>
-      <if test="name != null and name != ''">
-        name = #{name},
-      </if>
-      <if test="password != null and password != ''">
-        password = #{password},
-      </if>
-      <if test="username != null and username != ''">
-        username = #{username},
-      </if>
-      <if test="email != null and email != ''">
-        email = #{email},
-      </if>
-      <if test="age != null">
-        age = #{age},
-      </if>
-      <if test="admin != null">
-        admin = #{admin},
-      </if>
-      <if test="dept_id != null">
-        dept_id = #{dept_id},
-      </if>
-      <if test="hireDate != null">
-        hireDate = #{hireDate},
-      </if>
-    </set>
-    where id = #{id}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
-    select id, username, name, password, email, age, admin, dept_id, hireDate
-    from sys_employee
-    where id = #{id}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, username, name, password, email, age, admin, dept_id, hireDate
-    from sys_employee
-  </select>
-
-  <select id="selectByUserName" resultMap="BaseResultMap">
-    select id, username, name, password, email, age, admin, dept_id, hireDate from sys_employee where username=#{username}
+    <resultMap id="BaseResultMap" type="com.cqsd.data.entry.Employee">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="age" property="age"/>
+        <result column="admin" property="admin"/>
+        <result column="dept_id" property="dept_id"/>
+        <result column="hireDate" property="hireDate"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey">
+        delete
+        from sys_employee
+        where id = #{id}
+    </delete>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_employee (username, name, password, email, age, admin, dept_id,
+                                  hireDate)
+        values (#{username}, #{name}, #{password}, #{email}, #{age}, #{admin}, #{dept_id},
+                #{hireDate})
+    </insert>
+    <update id="updateByPrimaryKey">
+        update sys_employee
+        <set>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="admin != null">
+                admin = #{admin},
+            </if>
+            <if test="dept_id != null">
+                dept_id = #{dept_id},
+            </if>
+            <if test="hireDate != null">
+                hireDate = #{hireDate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select id,
+               username,
+               name,
+               password,
+               email,
+               age,
+               admin,
+               dept_id,
+               hireDate
+        from sys_employee
+        where id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               username,
+               name,
+               password,
+               email,
+               age,
+               admin,
+               dept_id,
+               hireDate
+        from sys_employee
     </select>
 
-  <delete id="deleteByBeathId">
-    delete from sys_employee where id in
-      <foreach collection="list" open="(" close=")" separator="," item="item">
-        #{item}
-      </foreach>
+    <select id="selectByUserName" resultMap="BaseResultMap">
+        select id,
+               username,
+               name,
+               password,
+               email,
+               age,
+               admin,
+               dept_id,
+               hireDate
+        from sys_employee
+        where username = #{username}
+    </select>
+
+    <delete id="deleteByBeathId">
+        delete
+        from sys_employee where id in
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
     </delete>
+
+    <select id="selectExpression" resultType="java.lang.String">
+        select menu.expression
+        from sys_employee emp
+                 right join sys_employee_role emp_role on emp.id = emp_role.employee_id
+                 left join sys_role_menu srm on emp_role.role_id = srm.role_id
+                 join sys_menus menu on menu.id = srm.menu_id
+        where emp.id = #{id}
+          and menu.status = 0
+          and menu.type = 2
+    </select>
 </mapper>

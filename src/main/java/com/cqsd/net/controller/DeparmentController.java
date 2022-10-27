@@ -1,5 +1,6 @@
 package com.cqsd.net.controller;
 
+import com.cqsd.data.annotation.RequeryPermission;
 import com.cqsd.data.entry.Department;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.DepartmentService;
@@ -28,6 +29,7 @@ public class DeparmentController extends BaseController<Department, QueryObject>
 	}
 	
 	@PostMapping("/dept")
+	@RequeryPermission("system:department:saveOrUpdate")
 	public JsonResult<?> saveOrUpdate(@RequestBody Department record) {
 		try {
 			if (Objects.isNull(record.getId())) {
@@ -42,6 +44,7 @@ public class DeparmentController extends BaseController<Department, QueryObject>
 	}
 	
 	@DeleteMapping("/dept/{id}")
+	@RequeryPermission("system:department:delete")
 	public JsonResult<?> deleteById(@PathVariable("id") Long id) {
 		service.deleteById(id);
 		return JsonResult.success(id);

@@ -15,5 +15,9 @@
             <mvc:exclude-mapping path="/employee/info"/>
             <bean class="com.cqsd.net.Interceptor.LoginInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.cqsd.net.Interceptor.CheckPermissionInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 </beans>
