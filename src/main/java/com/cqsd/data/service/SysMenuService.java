@@ -13,4 +13,7 @@ public interface SysMenuService extends BaseService<SysMenus, QueryObject> {
 	SysMenus changeStat(Long id);
 	
 	List<TreeData> getAllTreeData();
+	
+	List<SysMenus> selectAll();
+	List<TreeData> selectByEmployeeId(Long id);
 }

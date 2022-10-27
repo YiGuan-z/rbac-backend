@@ -17,7 +17,7 @@
     <delete id="deleteByPrimaryKey">
         delete
         from sys_employee_role
-        where role_id = #{id}
+        where employee_id = #{id}
     </delete>
 
     <select id="findByPrimaryKey" resultMap="BaseResultMap">

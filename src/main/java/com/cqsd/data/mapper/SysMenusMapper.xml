@@ -52,4 +52,10 @@
       #{parent_id}, #{seq}, #{created_time}, #{updated_time})
   </insert>
 
+  <select id="selectByEmployeeId" resultMap="BaseResultMap">
+    select m.* from sys_menus m
+    join sys_role_menu srm on m.id = srm.menu_id
+    join sys_employee_role ser on srm.role_id = ser.role_id
+    where ser.employee_id=#{id}
+  </select>
 </mapper>

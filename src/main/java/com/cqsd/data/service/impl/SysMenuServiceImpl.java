@@ -78,4 +78,19 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> i
 		record.setUpdated_time(new Date());
 		super.updateById(record);
 	}
+	
+	@Override
+	public List<SysMenus> selectAll() {
+		return mapper.selectAll();
+	}
+	
+	@Override
+	public List<TreeData> selectByEmployeeId(Long id) {
+		if (mapper instanceof SysMenusMapper mapper) {
+			var menus = mapper.selectByEmployeeId(id);
+			menus = menus.stream().filter(v -> v.getType() != 2).filter(v->v.getStatus()==0).toList();
+			return getTree(menus);
+		}
+		throw new RuntimeException("方法未实现");
+	}
 }

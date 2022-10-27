@@ -4,7 +4,9 @@ import com.cqsd.data.entry.SysMenus;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.SysMenuService;
 import com.cqsd.data.utils.TokenManager;
+import com.cqsd.data.utils.UserInfo;
 import com.cqsd.data.vo.JsonResult;
+import com.cqsd.data.vo.TreeData;
 import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,8 +91,10 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	
 	@GetMapping("/menu/routers")
 	public JsonResult<?> getRouter(@RequestHeader(value = TokenManager.TOKEN_NAME, required = false) String token) {
-		if (service instanceof SysMenuService menuService) {
-			final var treeData = menuService.getTreeData();
+		if (service instanceof SysMenuService service) {
+			final var user = TokenManager.getUser(token);
+			final var treeData = service.selectByEmployeeId(user.getId());
+//			final var treeData = service.getTreeData();
 			return success(treeData);
 		}
 		return failed("方法未实现");

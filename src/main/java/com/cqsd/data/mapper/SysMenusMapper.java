@@ -19,4 +19,5 @@ public interface SysMenusMapper extends BaseMapper<SysMenus, QueryObject> {
     int updateByPrimaryKey(SysMenus record);
 	
 	List<SysMenus> selectAll(boolean all);
+    List<SysMenus> selectByEmployeeId(Long id);
 }

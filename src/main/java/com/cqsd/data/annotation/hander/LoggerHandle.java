@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
