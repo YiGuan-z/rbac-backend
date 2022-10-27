@@ -2,14 +2,14 @@ package com.cqsd.net.controller;
 
 import com.cqsd.data.entry.SysRoleMenu;
 import com.cqsd.data.qo.QueryObject;
+import com.cqsd.data.service.SysMenuService;
 import com.cqsd.data.service.SysRoleService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+
+import java.util.ArrayList;
 
 import static com.cqsd.data.vo.JsonResult.success;
 
@@ -20,6 +20,8 @@ public class SysRoleMenuMapepr extends BaseController<SysRoleMenu, QueryObject> 
 	public SysRoleMenuMapepr(SysRoleService service) {
 		super(service);
 	}
+	private SysRoleService roleService= service instanceof SysRoleService ? ((SysRoleService) service) : null;
+	
 	
 	/**
 	 * 通过查询对象查询
@@ -44,5 +46,11 @@ public class SysRoleMenuMapepr extends BaseController<SysRoleMenu, QueryObject> 
 		service.save(record);
 		return success(record);
 	}
+	@PutMapping("/roleMenu")
+	public JsonResult<?> putPromission(@RequestBody PromissionSwap swap){
+		roleService.save(swap.id(),swap.menuId());
+		return JsonResult.success();
+	}
+	public record PromissionSwap(Long id,ArrayList<Long> menuId){}
 	
 }
