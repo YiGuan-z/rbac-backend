@@ -24,4 +24,8 @@
     <delete id="deleteByPrimaryKey">
         delete from sys_role_menu where role_id=#{id}
     </delete>
+
+    <select id="selectMenuIdByRoleId" resultType="java.lang.Long">
+        select menu_id from sys_role_menu where role_id=#{id}
+    </select>
 </mapper>

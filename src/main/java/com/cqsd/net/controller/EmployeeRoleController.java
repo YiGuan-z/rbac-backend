@@ -3,6 +3,7 @@ package com.cqsd.net.controller;
 import com.cqsd.data.entry.EmployeeRole;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeRoleService;
+import com.cqsd.data.service.SysRoleService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ public class EmployeeRoleController extends BaseController<EmployeeRole, QueryOb
 	public EmployeeRoleController(EmployeeRoleService service) {
 		super(service);
 	}
+	private final EmployeeRoleService roleService= service instanceof EmployeeRoleService ? ((EmployeeRoleService) service) : null;
+	
 	
 	@Override
 	@GetMapping("/role")

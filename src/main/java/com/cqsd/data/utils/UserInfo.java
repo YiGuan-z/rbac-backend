@@ -16,18 +16,22 @@ public class UserInfo {
 	private String name;
 	private String avatar;
 	
-	public UserInfo(Long id, String username, String name, String avatar) {
+	private UserInfo(Long id, String username, String name, String avatar) {
 		this.id = id;
 		this.username = username;
 		this.name = name;
 		this.avatar = avatar;
 	}
 	
-	public UserInfo() {
+  private UserInfo() {
 	}
+
+  public static UserInfo of(Long id,String username,String name,String avatar){
+    return new UserInfo(id,username,name,avatar); 
+  }
 	
 	public static UserInfo of(Employee obj) {
-		final var info = new UserInfo();
+		final UserInfo info = new UserInfo();
 		BeanUtils.copyProperties(obj, info);
 		return info;
 	}

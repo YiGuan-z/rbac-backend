@@ -22,7 +22,7 @@ class TreeDataTest {
 	private SysMenusMapper mapper;
 	
 	@Test
-	void testGetTree() throws InterruptedException {
+	void testGetTree() {
 		var rowData = mapper.selectAll();
 		rowData = rowData.stream()
 				.filter(v -> v.getType() == 0 || v.getType() == 1)
