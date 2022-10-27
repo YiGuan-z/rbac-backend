@@ -6,8 +6,11 @@ import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+
 @Getter
 @Setter
 public class UserInfo {
@@ -15,6 +18,11 @@ public class UserInfo {
 	private String username;
 	private String name;
 	private String avatar;
+	private List<String> roles = new ArrayList<>();
+	
+	public void setRoles(String roles) {
+		this.roles.add(roles);
+	}
 	
 	private UserInfo(Long id, String username, String name, String avatar) {
 		this.id = id;
@@ -23,18 +31,19 @@ public class UserInfo {
 		this.avatar = avatar;
 	}
 	
-  private UserInfo() {
+	private UserInfo() {
 	}
-
-  public static UserInfo of(Long id,String username,String name,String avatar){
-    return new UserInfo(id,username,name,avatar); 
-  }
+	
+	public static UserInfo of(Long id, String username, String name, String avatar) {
+		return new UserInfo(id, username, name, avatar);
+	}
 	
 	public static UserInfo of(Employee obj) {
 		final UserInfo info = new UserInfo();
 		BeanUtils.copyProperties(obj, info);
 		return info;
 	}
+	
 	@Override
 	public String toString() {
 		return new StringJoiner(", ", UserInfo.class.getSimpleName() + "[", "]")

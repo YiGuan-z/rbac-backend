@@ -14,17 +14,23 @@
         from sys_employee_role
     </select>
 
-    <select id="selectByQueryObject" resultMap="BaseResultMap">
-        select employee_id, role_id
+    <delete id="deleteByPrimaryKey">
+        delete
         from sys_employee_role
-        <where>
-            <if test="employee_id != null">
-                employee_id = #{employee_id}
-            </if>
-            <if test="role_id != null">
-                and role_id = #{employee_id}
-            </if>
-        </where>
+        where role_id = #{id}
+    </delete>
+
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select *
+        from sys_employee_role
+        where role_id = #{id}
     </select>
 
+    <insert id="saveList">
+        insert into sys_employee_role
+        values
+        <foreach collection="roles" separator="," item="item">
+            (#{id},#{item})
+        </foreach>
+    </insert>
 </mapper>

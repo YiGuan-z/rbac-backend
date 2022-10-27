@@ -38,9 +38,9 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	
 	@GetMapping("/menus")
 	public JsonResult<?> queryAll(boolean all) {
-		List<SysMenus> ret = service.selectAll(null);
+		List<SysMenus> ret = service.selectAll();
 		if (all) {
-			ret = service.selectAll(null).stream().filter(v -> v.getType() != 2).toList();
+			ret = service.selectAll().stream().filter(v -> v.getType() != 2).toList();
 		}
 		return JsonResult.success(ret);
 	}

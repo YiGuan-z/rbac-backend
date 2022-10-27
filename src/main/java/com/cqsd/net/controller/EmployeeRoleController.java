@@ -6,10 +6,10 @@ import com.cqsd.data.service.EmployeeRoleService;
 import com.cqsd.data.service.SysRoleService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -19,20 +19,25 @@ public class EmployeeRoleController extends BaseController<EmployeeRole, QueryOb
 	public EmployeeRoleController(EmployeeRoleService service) {
 		super(service);
 	}
-	private final EmployeeRoleService roleService= service instanceof EmployeeRoleService ? ((EmployeeRoleService) service) : null;
+	
+	private final EmployeeRoleService roleService = service instanceof EmployeeRoleService ? ((EmployeeRoleService) service) : null;
 	
 	
-	@Override
+	@GetMapping("/role/{id}")
+	public JsonResult<?> selectByPrimaryKey(@PathVariable("id") Long id) {
+		return JsonResult.success(roleService.selectAllbyId(id));
+	}
+	
 	@GetMapping("/role")
-	public JsonResult<?> getByQueryObject(QueryObject queryObject) {
-		return JsonResult.success(service.findByQueryObject(queryObject));
+	public JsonResult<?> queryAll() {
+		return JsonResult.success(service.selectAll());
 	}
 	
-	@PostMapping("/role")
-	@Override
-	public JsonResult<?> saveOrUpdate(EmployeeRole record) {
-		service.save(record);
-		return JsonResult.success(record);
+	@PutMapping("/role")
+	public JsonResult<?> saveOrUpdate(@RequestBody PromissionSwap record) {
+		roleService.save(record.id(),record.roles());
+		return JsonResult.success();
 	}
+	public record PromissionSwap(Long id, ArrayList<Long> roles){}
 	
 }

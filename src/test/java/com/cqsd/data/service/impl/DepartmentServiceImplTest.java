@@ -22,7 +22,7 @@ class DepartmentServiceImplTest {
 	
 	@Test
 	void testDept() {
-		final var departments = service.selectAll(new QueryObject("a", 0, 10));
+		final var departments = service.selectAll();
 		departments.forEach(System.out::println);
 	}
 	@Test

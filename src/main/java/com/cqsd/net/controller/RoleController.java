@@ -21,6 +21,10 @@ public class RoleController extends BaseController<Role, QueryObject> {
 	public JsonResult<?> getByQueryObject(QueryObject queryObject) {
 		return JsonResult.success(service.findByQueryObject(queryObject));
 	}
+	@GetMapping("/infos")
+	public JsonResult<?> selectAll(){
+		return JsonResult.success(service.selectAll());
+	}
 	
 	@GetMapping("/info/{id}")
 	public JsonResult<?> getById(@PathVariable("id") Long id) {

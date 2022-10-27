@@ -9,25 +9,40 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EmployeeRoleServiceImpl implements EmployeeRoleService {
-	private final EmployeeRoleMapper service;
+	private final EmployeeRoleMapper mapper;
 	
 	public EmployeeRoleServiceImpl(EmployeeRoleMapper service) {
-		this.service = service;
+		this.mapper = service;
 	}
 	
 	@Override
 	public void save(EmployeeRole record) {
-		service.insert(record);
+		mapper.deleteByPrimaryKey(record.getEmployee_id());
+		mapper.insert(record);
 	}
 	
 	@Override
-	public PageInfo<EmployeeRole> selectAllbyQueryObject(QueryObject queryObject) {
-		final Page<EmployeeRole> page = PageHelper.startPage(queryObject.current(), queryObject.limit());
-		final var roles = service.selectAll();
-		return new PageInfo<>(page);
+	public List<Long> selectAllbyId(Long id) {
+		return mapper.findByPrimaryKey(id).stream().map(EmployeeRole::getRole_id).toList();
+	}
+	
+	@Override
+	public List<EmployeeRole> selectAll() {
+		return mapper.selectAll();
+	}
+	
+	@Override
+	public void save(Long id, ArrayList<Long> roles) {
+		mapper.deleteByPrimaryKey(id);
+		if (Objects.isNull(roles)){
+			return;
+		}
+		mapper.saveList(id,roles);
 	}
 }

@@ -8,9 +8,14 @@ import com.cqsd.data.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class RoleServiceImpl extends BaseServiceImpl<Role,QueryObject> implements RoleService{
+public class RoleServiceImpl extends BaseServiceImpl<Role, QueryObject> implements RoleService {
 	public RoleServiceImpl(RoleMapper mapper) {
 		super(mapper);
+	}
+	
+	public List<Role> selectAll() {
+		return mapper.selectAll();
 	}
 }

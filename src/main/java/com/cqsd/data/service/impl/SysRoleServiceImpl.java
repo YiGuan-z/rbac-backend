@@ -15,15 +15,20 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMenu, QueryObject
 	public SysRoleServiceImpl(SysRoleMenuMapper mapper) {
 		super(mapper);
 	}
-	private final SysRoleMenuMapper roleMenuMapper =mapper instanceof SysRoleMenuMapper? (SysRoleMenuMapper) mapper :null;
+	
+	private final SysRoleMenuMapper roleMenuMapper = mapper instanceof SysRoleMenuMapper ? (SysRoleMenuMapper) mapper : null;
+	
 	@Override
 	public void save(Long id, ArrayList<Long> menusId) {
 		roleMenuMapper.deleteByPrimaryKey(id);
-		roleMenuMapper.save(id,menusId);
+		if (menusId.isEmpty()){
+			return;
+		}
+		roleMenuMapper.save(id, menusId);
 	}
 	
 	@Override
 	public List<Long> selectMenuIdByRoleId(Long id) {
-		return roleMenuMapper.selectMenuIdByRoleId(id);
+		return roleMenuMapper.selectMenuIdByRoleId(id).stream().map(SysRoleMenu::getMenu_id).toList();
 	}
 }

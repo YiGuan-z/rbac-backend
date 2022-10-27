@@ -29,7 +29,7 @@ public interface BaseService<T, R extends QueryObject> {
 		throw new RuntimeException("该方法未实现");
 	}
 	
-	default List<T> selectAll(R queryObject) {
+	default List<T> selectAll() {
 		throw new RuntimeException("该方法未实现");
 	}
 	

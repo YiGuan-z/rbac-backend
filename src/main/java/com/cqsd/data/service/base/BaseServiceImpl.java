@@ -42,7 +42,6 @@ abstract public class BaseServiceImpl<T, R extends QueryObject> implements BaseS
 		return PageInfo.of(page);
 	}
 	
-	@Override
 	public List<T> selectAll(R queryObject) {
 		return mapper.selectAll();
 	}

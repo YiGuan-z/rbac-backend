@@ -16,5 +16,5 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu, QueryObject> 
 	void save(@Param("id") Long id, @Param("menusId") ArrayList<Long> menusId);
 	
 	 int deleteByPrimaryKey(Long id);
-	 List<Long> selectMenuIdByRoleId(Long id);
+	 List<SysRoleMenu> selectMenuIdByRoleId(Long id);
 }

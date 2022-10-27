@@ -5,6 +5,13 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.base.BaseService;
 import com.github.pagehelper.PageInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface EmployeeRoleService extends BaseService<EmployeeRole, QueryObject> {
-	 PageInfo<EmployeeRole> selectAllbyQueryObject(QueryObject queryObject);
+	 List<Long> selectAllbyId(Long id);
+	
+	 List<EmployeeRole> selectAll() ;
+	
+	void save(Long id, ArrayList<Long> roles);
 }

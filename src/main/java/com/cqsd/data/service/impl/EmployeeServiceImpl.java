@@ -25,7 +25,9 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject> 
 			Objects.requireNonNull(employee, "用户不存在");
 			if (employee.getPassword().equals(password)) {
 				final var token = TokenManager.createToken();
-				TokenManager.addUser(token, UserInfo.of(employee));
+				final var userInfo = UserInfo.of(employee);
+				userInfo.setRoles(Objects.isNull(employee.getAdmin()) ? "employee" : "admin");
+				TokenManager.addUser(token, userInfo);
 				return token;
 			}
 			throw new NullPointerException("用户密码错误");
