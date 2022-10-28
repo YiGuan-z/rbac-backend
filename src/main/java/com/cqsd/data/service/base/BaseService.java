@@ -1,11 +1,9 @@
 package com.cqsd.data.service.base;
 
 
-import com.cqsd.data.mapper.base.BaseMapper;
 import com.cqsd.data.qo.QueryObject;
 import com.github.pagehelper.PageInfo;
 
-import java.util.Arrays;
 import java.util.List;
 
 public interface BaseService<T, R extends QueryObject> {

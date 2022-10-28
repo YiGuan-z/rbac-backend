@@ -2,11 +2,7 @@ package com.cqsd.data.service.impl;
 
 import com.cqsd.data.entry.EmployeeRole;
 import com.cqsd.data.mapper.EmployeeRoleMapper;
-import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeRoleService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

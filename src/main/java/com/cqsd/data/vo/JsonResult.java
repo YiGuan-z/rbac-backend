@@ -3,6 +3,7 @@ package com.cqsd.data.vo;
 import java.util.Objects;
 
 import static com.cqsd.data.vo.ResultEnum.*;
+
 /**
  * @param code    Server status code
  * @param message Server return message
@@ -14,7 +15,7 @@ public record JsonResult<T>(Integer code, String message, T data) {
 	public JsonResult {
 	}
 	
-	public static <T> JsonResult<T> of(Integer code, String message, T data) {
+	private static <T> JsonResult<T> of(Integer code, String message, T data) {
 		return new JsonResult<>(code, message, data);
 	}
 	
@@ -24,6 +25,10 @@ public record JsonResult<T>(Integer code, String message, T data) {
 	
 	public static <T> JsonResult<T> success(Integer code, T data) {
 		return of(code, SUCCESS_MESSAGE, data);
+	}
+	
+	public static <T> JsonResult<T> success(Integer code, String message, T data) {
+		return of(code, message, data);
 	}
 	
 	//	public static <T> JsonResult<T> success(String message){
@@ -39,6 +44,10 @@ public record JsonResult<T>(Integer code, String message, T data) {
 	
 	public static <T> JsonResult<T> code(Integer code) {
 		return of(code, null, null);
+	}
+	
+	public static <T> JsonResult<T> failed(Integer code, String message, T data) {
+		return of(code, message, data);
 	}
 	
 	public static <T> JsonResult<T> failed(Integer code, String message) {

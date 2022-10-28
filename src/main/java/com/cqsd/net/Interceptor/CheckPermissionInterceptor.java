@@ -4,17 +4,14 @@ import com.alibaba.fastjson2.JSON;
 import com.cqsd.data.annotation.RequeryPermission;
 import com.cqsd.data.mapper.EmployeeMapper;
 import com.cqsd.data.utils.TokenManager;
-import com.cqsd.data.utils.UserInfo;
 import com.cqsd.data.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 public class CheckPermissionInterceptor implements HandlerInterceptor {
 	@Autowired

@@ -3,13 +3,11 @@ package com.cqsd.net.controller;
 import com.cqsd.data.entry.EmployeeRole;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeRoleService;
-import com.cqsd.data.service.SysRoleService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController

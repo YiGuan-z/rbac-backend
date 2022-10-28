@@ -4,17 +4,14 @@ import com.cqsd.data.entry.SysMenus;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.SysMenuService;
 import com.cqsd.data.utils.TokenManager;
-import com.cqsd.data.utils.UserInfo;
 import com.cqsd.data.vo.JsonResult;
-import com.cqsd.data.vo.TreeData;
 import com.cqsd.net.base.BaseController;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.cqsd.data.vo.JsonResult.*;
+import static com.cqsd.data.vo.JsonResult.success;
 
 @RequestMapping("/system")
 @RestController
