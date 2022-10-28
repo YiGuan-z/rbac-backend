@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class DepartmentServiceImpl extends BaseServiceImpl<Department,QueryObject> implements DepartmentService {
+public class DepartmentServiceImpl extends BaseServiceImpl<Department,QueryObject,DepartmentMapper> implements DepartmentService {
 	
 	public DepartmentServiceImpl(DepartmentMapper mapper) {
 		super(mapper);

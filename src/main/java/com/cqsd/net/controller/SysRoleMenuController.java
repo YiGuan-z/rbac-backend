@@ -16,12 +16,11 @@ import static com.cqsd.data.vo.JsonResult.success;
 
 @RestController
 @RequestMapping("/system")
-public class SysRoleMenuController extends BaseController<SysRoleMenu, QueryObject> {
+public class SysRoleMenuController extends BaseController<SysRoleMenu, QueryObject,SysRoleService> {
 	
 	public SysRoleMenuController(SysRoleService service) {
 		super(service);
 	}
-	private final SysRoleService roleService= service instanceof SysRoleService ? ((SysRoleService) service) : null;
 	
 	
 	/**
@@ -49,12 +48,12 @@ public class SysRoleMenuController extends BaseController<SysRoleMenu, QueryObje
 	}
 	@PutMapping("/roleMenu")
 	public JsonResult<?> putPromission(@RequestBody PromissionSwap swap){
-		roleService.save(swap.id(),swap.menuId());
+		service.save(swap.id(),swap.menuId());
 		return JsonResult.success();
 	}
 	@GetMapping("/roleMenu/{id}")
 	public JsonResult<?> getRolePermission(@PathVariable Long id){
-		return JsonResult.success(roleService.selectMenuIdByRoleId(id));
+		return JsonResult.success(service.selectMenuIdByRoleId(id));
 		
 	}
 	public record PromissionSwap(Long id,ArrayList<Long> menuId){}

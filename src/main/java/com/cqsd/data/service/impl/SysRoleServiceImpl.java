@@ -11,24 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMenu, QueryObject> implements SysRoleService {
+public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMenu, QueryObject,SysRoleMenuMapper> implements SysRoleService {
 	public SysRoleServiceImpl(SysRoleMenuMapper mapper) {
 		super(mapper);
 	}
 	
-	private final SysRoleMenuMapper roleMenuMapper = mapper instanceof SysRoleMenuMapper ? (SysRoleMenuMapper) mapper : null;
 	
 	@Override
 	public void save(Long id, ArrayList<Long> menusId) {
-		roleMenuMapper.deleteByPrimaryKey(id);
+		mapper.deleteByPrimaryKey(id);
 		if (menusId.isEmpty()){
 			return;
 		}
-		roleMenuMapper.save(id, menusId);
+		mapper.save(id, menusId);
 	}
 	
 	@Override
 	public List<Long> selectMenuIdByRoleId(Long id) {
-		return roleMenuMapper.selectMenuIdByRoleId(id).stream().map(SysRoleMenu::getMenu_id).toList();
+		return mapper.selectMenuIdByRoleId(id).stream().map(SysRoleMenu::getMenu_id).toList();
 	}
 }

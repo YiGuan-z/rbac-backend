@@ -18,7 +18,7 @@ import static com.cqsd.data.vo.JsonResult.*;
 
 @RequestMapping("/system")
 @RestController
-public class SysMenusController extends BaseController<SysMenus, QueryObject> {
+public class SysMenusController extends BaseController<SysMenus, QueryObject, SysMenuService> {
 	
 	public SysMenusController(SysMenuService service) {
 		super(service);
@@ -31,11 +31,8 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	 */
 	@GetMapping("/menu")
 	public JsonResult<?> getByQueryObject() {
-		if (service instanceof SysMenuService menuService) {
-			final var treeData = menuService.getAllTreeData();
-			return success(treeData);
-		}
-		return failed("方法未实现");
+		final var treeData = service.getAllTreeData();
+		return success(treeData);
 	}
 	
 	@GetMapping("/menus")
@@ -91,22 +88,15 @@ public class SysMenusController extends BaseController<SysMenus, QueryObject> {
 	
 	@GetMapping("/menu/routers")
 	public JsonResult<?> getRouter(@RequestHeader(value = TokenManager.TOKEN_NAME, required = false) String token) {
-		if (service instanceof SysMenuService service) {
-			final var user = TokenManager.getUser(token);
-			final var treeData = service.selectByEmployeeId(user.getId());
+		final var user = TokenManager.getUser(token);
+		final var treeData = service.selectByEmployeeId(user.getId());
 //			final var treeData = service.getTreeData();
-			return success(treeData);
-		}
-		return failed("方法未实现");
+		return success(treeData);
 	}
 	
 	@PatchMapping("/menu/{id}")
 	public JsonResult<?> changeStatus(@PathVariable("id") Long id) {
-		if (service instanceof SysMenuService menuService) {
-			final var sysMenus = menuService.changeStat(id);
-			return success(sysMenus.getStatus());
-		}
-		return failed("方法未实现");
-		
+		final var sysMenus = service.changeStat(id);
+		return success(sysMenus.getStatus());
 	}
 }

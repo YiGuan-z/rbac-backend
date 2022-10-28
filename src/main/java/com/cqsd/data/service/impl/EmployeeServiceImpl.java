@@ -13,32 +13,29 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject> implements EmployeeService {
+public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, EmployeeMapper> implements EmployeeService {
 	public EmployeeServiceImpl(EmployeeMapper mapper) {
 		super(mapper);
 	}
 	
 	@Override
-	public String login(String username, String password) {
-		if (mapper instanceof EmployeeMapper employeeMapper) {
-			Employee employee = employeeMapper.selectByUserName(username);
-			Objects.requireNonNull(employee, "用户不存在");
-			if (employee.getPassword().equals(password)) {
-				final var token = TokenManager.createToken();
-				final var userInfo = UserInfo.of(employee);
-				TokenManager.addUser(token, userInfo);
-				return token;
-			}
-			throw new NullPointerException("用户密码错误");
+	public String login(String username, String password) throws LoginExeption{
+		Employee employee = mapper.selectByUserName(username);
+		Objects.requireNonNull(employee, "用户不存在");
+		if (employee.getPassword().equals(password)) {
+			final var token = TokenManager.createToken();
+			final var userInfo = UserInfo.of(employee);
+			TokenManager.addUser(token, userInfo);
+			return token;
 		}
-		throw new NullPointerException("没有实现");
+		throw new LoginExeption("用户密码错误");
+		
 	}
 	
 	@Override
 	public void deleteByIds(List<Long> ids) {
-		if (mapper instanceof EmployeeMapper employeeMapper) {
-			employeeMapper.deleteByBeathId(ids);
-		}
-		throw new RuntimeException("没有实现");
+		mapper.deleteByBeathId(ids);
 	}
+	
+	
 }

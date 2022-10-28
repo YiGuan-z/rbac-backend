@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/employee")
-public class EmployeeController extends BaseController<Employee,QueryObject> {
+public class EmployeeController extends BaseController<Employee, QueryObject, EmployeeService> {
 	
 	public EmployeeController(EmployeeService service) {
 		super(service);
@@ -51,13 +51,11 @@ public class EmployeeController extends BaseController<Employee,QueryObject> {
 		service.deleteById(id);
 		return JsonResult.success(id);
 	}
+	
 	@DeleteMapping("/user")
-	public JsonResult<?> deleteBatch(@RequestBody ArrayList<Long> ids){
-		if (service instanceof EmployeeService employeeService){
-			employeeService.deleteByIds(ids);
-			return JsonResult.success(ids.toArray());
-		}
-		throw new RuntimeException("方法未实现");
+	public JsonResult<?> deleteBatch(@RequestBody ArrayList<Long> ids) {
+		service.deleteByIds(ids);
+		return JsonResult.success(ids.toArray());
 	}
 	
 	

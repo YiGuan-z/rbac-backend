@@ -14,18 +14,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
-public class EmployeeRoleController extends BaseController<EmployeeRole, QueryObject> {
+public class EmployeeRoleController extends BaseController<EmployeeRole, QueryObject,EmployeeRoleService> {
 	
 	public EmployeeRoleController(EmployeeRoleService service) {
 		super(service);
 	}
 	
-	private final EmployeeRoleService roleService = service instanceof EmployeeRoleService ? ((EmployeeRoleService) service) : null;
-	
 	
 	@GetMapping("/role/{id}")
 	public JsonResult<?> selectByPrimaryKey(@PathVariable("id") Long id) {
-		return JsonResult.success(roleService.selectAllbyId(id));
+		return JsonResult.success(service.selectAllbyId(id));
 	}
 	
 	@GetMapping("/role")
@@ -35,7 +33,7 @@ public class EmployeeRoleController extends BaseController<EmployeeRole, QueryOb
 	
 	@PutMapping("/role")
 	public JsonResult<?> saveOrUpdate(@RequestBody PromissionSwap record) {
-		roleService.save(record.id(),record.roles());
+		service.save(record.id(),record.roles());
 		return JsonResult.success();
 	}
 	public record PromissionSwap(Long id, ArrayList<Long> roles){}

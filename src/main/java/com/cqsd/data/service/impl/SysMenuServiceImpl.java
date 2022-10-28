@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> implements SysMenuService {
+public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject, SysMenusMapper> implements SysMenuService {
 	public SysMenuServiceImpl(SysMenusMapper mapper) {
 		super(mapper);
 	}
@@ -86,11 +86,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject> i
 	
 	@Override
 	public List<TreeData> selectByEmployeeId(Long id) {
-		if (mapper instanceof SysMenusMapper mapper) {
-			var menus = mapper.selectByEmployeeId(id);
-			menus = menus.stream().filter(v -> v.getType() != 2).filter(v->v.getStatus()==0).toList();
-			return getTree(menus);
-		}
-		throw new RuntimeException("方法未实现");
+		var menus = mapper.selectByEmployeeId(id);
+		menus = menus.stream().filter(v -> v.getType() != 2).filter(v -> v.getStatus() == 0).toList();
+		return getTree(menus);
 	}
 }

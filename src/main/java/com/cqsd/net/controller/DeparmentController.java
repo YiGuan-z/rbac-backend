@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/deparment")
-public class DeparmentController extends BaseController<Department, QueryObject> {
+public class DeparmentController extends BaseController<Department, QueryObject,DepartmentService> {
 	
 	public DeparmentController(DepartmentService service) {
 		super(service);

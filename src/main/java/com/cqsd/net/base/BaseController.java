@@ -6,11 +6,12 @@ import com.cqsd.data.service.base.BaseService;
 import com.cqsd.data.vo.JsonResult;
 
 
-abstract public class BaseController<T, R extends QueryObject> {
-	protected final BaseService<T,R> service;
+abstract public class BaseController<T, R extends QueryObject, I extends BaseService<T, R>> {
+	protected final I service;
 	
+	@SuppressWarnings("unchecked")
 	public BaseController(BaseService<T, R> service) {
-		this.service = service;
+		this.service = (I) service;
 	}
 	
 	/**
@@ -19,9 +20,9 @@ abstract public class BaseController<T, R extends QueryObject> {
 	 * @param queryObject
 	 * @return
 	 */
-	 public JsonResult<?> getByQueryObject(R queryObject){
-		 throw new NullPointerException("方法未实现");
-	 }
+	public JsonResult<?> getByQueryObject(R queryObject) {
+		throw new NullPointerException("方法未实现");
+	}
 	
 	/**
 	 * 获取一个资源
@@ -29,9 +30,9 @@ abstract public class BaseController<T, R extends QueryObject> {
 	 * @param id
 	 * @return
 	 */
-	 public JsonResult<?> getById(Long id){
-		 throw new NullPointerException("方法未实现");
-	 }
+	public JsonResult<?> getById(Long id) {
+		throw new NullPointerException("方法未实现");
+	}
 	
 	/**
 	 * 保存或更新一个资源，通过是否有id判断
@@ -39,9 +40,9 @@ abstract public class BaseController<T, R extends QueryObject> {
 	 * @param record
 	 * @return
 	 */
-	 public JsonResult<?> saveOrUpdate(T record){
-		 throw new NullPointerException("方法未实现");
-	 }
+	public JsonResult<?> saveOrUpdate(T record) {
+		throw new NullPointerException("方法未实现");
+	}
 	
 	/**
 	 * 删除一个资源
@@ -50,7 +51,7 @@ abstract public class BaseController<T, R extends QueryObject> {
 	 * @return
 	 */
 	
-	 public JsonResult<?> deleteById(Long id){
-		 throw new NullPointerException("方法未实现");
-	 }
+	public JsonResult<?> deleteById(Long id) {
+		throw new NullPointerException("方法未实现");
+	}
 }
