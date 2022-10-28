@@ -23,6 +23,7 @@ public class CheckPermissionInterceptor implements HandlerInterceptor {
 			//如果注解上没有要求权限，直接放行
 			if (Objects.isNull(annotation)) return true;
 			final var userInfo = TokenManager.getUser(request.getHeader(TokenManager.TOKEN_NAME));
+			//获取用户持有的权限表达式
 			final var expression = mapper.selectExpression(userInfo.getId());
 			//获取用户权限，获取当前注解上的所需权限，如果没有，就返回403
 			//如果是管理员就放行
