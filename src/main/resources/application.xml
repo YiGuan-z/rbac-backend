@@ -49,8 +49,7 @@
         <aop:pointcut id="txPoint" expression="execution(* com.cqsd.data.service.impl.*ServiceImpl.*(..))"/>
         <aop:advisor advice-ref="tx" pointcut-ref="txPoint"/>
     </aop:config>
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
     <tx:annotation-driven/>
     <content:component-scan base-package="com.cqsd"/>
-    <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

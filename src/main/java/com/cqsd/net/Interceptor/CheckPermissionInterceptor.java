@@ -20,17 +20,16 @@ public class CheckPermissionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		if (handler instanceof HandlerMethod handlerMethod) {
 			final var annotation = handlerMethod.getMethodAnnotation(RequeryPermission.class);
-			//如果注解上没有要求权限，直接放行
 			if (Objects.isNull(annotation)) return true;
 			final var userInfo = TokenManager.getUser(request.getHeader(TokenManager.TOKEN_NAME));
-			//获取用户持有的权限表达式
-			final var expression = mapper.selectExpression(userInfo.getId());
-			//获取用户权限，获取当前注解上的所需权限，如果没有，就返回403
-			//如果是管理员就放行
 			final var l = userInfo.getRoles().parallelStream().filter(v -> v.equalsIgnoreCase("admin")).count();
 			if (l == 1) {
 				return true;
 			}
+			//获取用户持有的权限表达式
+			final var expression = mapper.selectExpression(userInfo.getId());
+			//获取用户权限，获取当前注解上的所需权限，如果没有，就返回403
+			//如果是管理员就放行
 			if (expression.contains(annotation.value())) {
 				return true;
 			} else {

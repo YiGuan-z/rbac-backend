@@ -8,11 +8,11 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
-abstract public class BaseServiceImpl<T, R extends QueryObject,I extends BaseMapper<T,R>> implements BaseService<T, R> {
+abstract public class BaseServiceImpl<T, R extends QueryObject, I extends BaseMapper<T, R>> implements BaseService<T, R> {
 	protected final I mapper;
-	@SuppressWarnings("unchecked")
-	public BaseServiceImpl(BaseMapper<T, R> mapper) {
-		this.mapper = (I) mapper;
+	
+	public BaseServiceImpl(I mapper) {
+		this.mapper = mapper;
 	}
 	
 	@Override
