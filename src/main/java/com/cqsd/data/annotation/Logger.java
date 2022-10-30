@@ -1,7 +1,5 @@
 package com.cqsd.data.annotation;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
