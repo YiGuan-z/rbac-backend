@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping(value = "/employee")
+@RequestMapping(value = "/api/v1/employee")
 public class LoginController {
 	private final EmployeeService service;
 	
@@ -18,26 +18,22 @@ public class LoginController {
 	
 	@PostMapping(value = "/login")
 	@ResponseBody
-	public JsonResult<?> employeeLogin(@RequestBody User user) {
-		try {
-			final var token = service.login(user.username(), user.password());
-			return JsonResult.success(token);
-		} catch (Exception e) {
-			return JsonResult.failed(e.getMessage());
-		}
+	public JsonResult<?> employeeLogin(@RequestBody User user) throws EmployeeService.LoginExeption {
+		final var token = service.login(user.username(), user.password());
+		return JsonResult.success(token);
 	}
 	
 	@GetMapping(value = "/info")
-	public JsonResult<?> getUserInfo(@RequestHeader(value = TokenManager.TOKEN_NAME,required = false) String token) {
-		if (!StringUtils.hasLength(token)){
-			return JsonResult.failed(400,"token 不能为空");
+	public JsonResult<?> getUserInfo(@RequestHeader(value = TokenManager.TOKEN_NAME, required = false) String token) {
+		if (!StringUtils.hasLength(token)) {
+			return JsonResult.failed(400, "token 不能为空");
 		}
 		final var user = TokenManager.getUser(token);
 		return JsonResult.success(user);
 	}
 	
 	@GetMapping(value = "/logout")
-	public JsonResult<?> logout(@RequestHeader(value = TokenManager.TOKEN_NAME,required = false)String token){
+	public JsonResult<?> logout(@RequestHeader(value = TokenManager.TOKEN_NAME, required = false) String token) {
 		TokenManager.remove(token);
 		return JsonResult.success();
 	}

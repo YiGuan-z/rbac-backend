@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/api/v1/employee")
 public class EmployeeController extends BaseController<Employee, QueryObject, EmployeeService> {
 	
 	public EmployeeController(EmployeeService service) {

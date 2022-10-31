@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("api/v1/employee")
 public class EmployeeRoleController extends BaseController<EmployeeRole, QueryObject,EmployeeRoleService> {
 	
 	public EmployeeRoleController(EmployeeRoleService service) {

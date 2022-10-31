@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import static com.cqsd.data.vo.JsonResult.success;
 
-@RequestMapping("/system")
+@RequestMapping("/api/v1/system")
 @RestController
 public class SysMenusController extends BaseController<SysMenus, QueryObject, SysMenuService> {
 	

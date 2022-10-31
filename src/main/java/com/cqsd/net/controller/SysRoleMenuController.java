@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static com.cqsd.data.vo.JsonResult.success;
 
 @RestController
-@RequestMapping("/system")
+@RequestMapping("/api/v1/system")
 public class SysRoleMenuController extends BaseController<SysRoleMenu, QueryObject,SysRoleService> {
 	
 	public SysRoleMenuController(SysRoleService service) {

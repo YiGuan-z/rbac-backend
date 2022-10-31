@@ -1,28 +1,22 @@
 package com.cqsd.data.vo;
 
-import com.alibaba.fastjson2.JSON;
-import com.cqsd.data.entry.SysMenus;
 import com.cqsd.data.mapper.SysMenusMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration("classpath:/application.xml")
+@SpringBootTest
 class TreeDataTest {
+	private final ObjectMapper objectMapper = new ObjectMapper();
 	@Autowired
 	private SysMenusMapper mapper;
 	
 	@Test
-	void testGetTree() {
+	void testGetTree() throws JsonProcessingException {
 		var rowData = mapper.selectAll();
 		rowData = rowData.stream()
 				.filter(v -> v.getType() == 0 || v.getType() == 1)
@@ -57,7 +51,7 @@ class TreeDataTest {
 					}
 					return v.getParent_id() == null;
 				}).map(v -> cacheMap.get(v.getId())).toList();
-		final var string = JSON.toJSONString(treeDataList);
+		final var string = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(treeDataList);
 		
 		System.out.println(string);
 

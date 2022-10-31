@@ -1,6 +1,6 @@
 package com.cqsd.net.controller;
 
-import com.cqsd.data.annotation.RequeryPermission;
+import com.cqsd.data.annotation.RequirePermission;
 import com.cqsd.data.entry.Department;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.DepartmentService;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/deparment")
+@RequestMapping("/api/v1/deparment")
 public class DeparmentController extends BaseController<Department, QueryObject,DepartmentService> {
 	
 	public DeparmentController(DepartmentService service) {
@@ -29,7 +29,7 @@ public class DeparmentController extends BaseController<Department, QueryObject,
 	}
 	
 	@PostMapping("/dept")
-	@RequeryPermission("system:department:saveOrUpdate")
+	@RequirePermission("system:department:saveOrUpdate")
 	public JsonResult<?> saveOrUpdate(@RequestBody Department record) {
 		try {
 			if (Objects.isNull(record.getId())) {
@@ -44,7 +44,7 @@ public class DeparmentController extends BaseController<Department, QueryObject,
 	}
 	
 	@DeleteMapping("/dept/{id}")
-	@RequeryPermission("system:department:delete")
+	@RequirePermission("system:department:delete")
 	public JsonResult<?> deleteById(@PathVariable("id") Long id) {
 		service.deleteById(id);
 		return JsonResult.success(id);

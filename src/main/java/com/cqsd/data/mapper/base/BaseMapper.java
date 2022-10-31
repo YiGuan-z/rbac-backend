@@ -1,9 +1,10 @@
 package com.cqsd.data.mapper.base;
 
 import com.cqsd.data.qo.QueryObject;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
+@Mapper
 public interface BaseMapper<T, Q extends QueryObject> {
 	default int deleteByPrimaryKey(Long id) {
 		throw new RuntimeException("方法未实现");

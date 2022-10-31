@@ -3,11 +3,12 @@ package com.cqsd.data.mapper;
 import com.cqsd.data.entry.SysRoleMenu;
 import com.cqsd.data.mapper.base.BaseMapper;
 import com.cqsd.data.qo.QueryObject;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Mapper
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu, QueryObject> {
 	int insert(SysRoleMenu record);
 	

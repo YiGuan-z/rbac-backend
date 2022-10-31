@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("api/v1/role")
 public class RoleController extends BaseController<Role, QueryObject,RoleService> {
 	
 	public RoleController(RoleService service) {

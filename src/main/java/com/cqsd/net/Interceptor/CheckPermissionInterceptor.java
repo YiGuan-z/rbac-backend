@@ -1,6 +1,6 @@
 package com.cqsd.net.Interceptor;
 
-import com.cqsd.data.annotation.RequeryPermission;
+import com.cqsd.data.annotation.RequirePermission;
 import com.cqsd.data.mapper.EmployeeMapper;
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
@@ -12,7 +12,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
-
 public class CheckPermissionInterceptor implements HandlerInterceptor {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -22,7 +21,7 @@ public class CheckPermissionInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		if (handler instanceof HandlerMethod handlerMethod) {
-			final var annotation = handlerMethod.getMethodAnnotation(RequeryPermission.class);
+			final var annotation = handlerMethod.getMethodAnnotation(RequirePermission.class);
 			if (Objects.isNull(annotation)) return true;
 			final var userInfo = TokenManager.getUser(request.getHeader(TokenManager.TOKEN_NAME));
 			final var l = userInfo.getRoles().parallelStream().filter(v -> v.equalsIgnoreCase("admin")).count();
