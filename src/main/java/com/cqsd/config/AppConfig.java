@@ -5,31 +5,39 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 
 @Configuration
 @Import(MvcConfig.class)
-@ConfigurationProperties("db")
-@PropertySource("classpath:db.properties")
+@ConfigurationProperties(prefix = "my.db")
 public class AppConfig {
-	private final Environment environment;
+	private String driverClassName;
+	private String url;
+	private String username;
+	private String password;
 	
-	public AppConfig(Environment environment) {
-		this.environment = environment;
+	public void setDriverClassName(String driverClassName) {
+		this.driverClassName = driverClassName;
 	}
 	
-	@Bean(initMethod = "init")
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	@Bean(initMethod = "init",destroyMethod = "close")
 	public DruidDataSourceWrapper dataSource() {
 		final var wrapper = new DruidDataSourceWrapper();
-		wrapper.setDriverClassName(environment.getProperty("db.driverClassName"));
-		wrapper.setUrl(environment.getProperty("db.url"));
-		wrapper.setUsername(environment.getProperty("db.username"));
-		wrapper.setPassword(environment.getProperty("db.password"));
-//		wrapper.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//		wrapper.setUrl("jdbc:mysql://49.232.150.194:3306/rbac");
-//		wrapper.setUsername("root");
-//		wrapper.setPassword("5201314zFy@");
+		wrapper.setDriverClassName(driverClassName);
+		wrapper.setUrl(url);
+		wrapper.setUsername(username);
+		wrapper.setPassword(password);
 		return wrapper;
 	}
 	

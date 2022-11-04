@@ -10,6 +10,9 @@
 #  type-aliases-package: com.cqsd.data.entry.
 server:
   port: 8080
+  tomcat:
+    threads:
+      max: 5000
 
 logging:
   level:
@@ -20,3 +23,9 @@ pagehelper:
   reasonable: true
   #如果每一页显示为0，就查询所有数据
   page-size-zero: true
+my:
+  db:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://49.232.150.194:3306/rbac
+    username: root
+    password: 5201314zFy@

@@ -7,6 +7,7 @@ import com.cqsd.data.service.SysMenuService;
 import com.cqsd.data.service.base.BaseServiceImpl;
 import com.cqsd.data.vo.TreeData;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject, S
 	}
 	
 	private List<TreeData> getTree(List<SysMenus> rowData) {
-		final var cacheMap = rowData.stream()
+		final var cacheMap = rowData.parallelStream()
 				.map(sysMenus -> TreeData.of(sysMenus.getId(),
 						sysMenus.getTitle(),
 						sysMenus.getPath(),
@@ -40,7 +41,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject, S
 				))
 				.collect(Collectors.toMap(TreeData::getId, v -> v));
 		
-		return rowData.stream()
+		return rowData.parallelStream()
 				.filter(v -> {
 					if (v.getParent_id() != null) {
 						//通过父id找爹
@@ -64,7 +65,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject, S
 				.collect(Collectors.toList());
 		return getTree(rowData);
 	}
-	
+	@Transactional
 	@Override
 	public SysMenus changeStat(Long id) {
 		final var menus = mapper.selectByPrimaryKey(id);
@@ -74,6 +75,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenus, QueryObject, S
 	}
 	
 	@Override
+	@Transactional
 	public void updateById(SysMenus record) {
 		record.setUpdated_time(new Date());
 		super.updateById(record);

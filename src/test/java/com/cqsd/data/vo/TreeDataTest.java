@@ -1,5 +1,6 @@
 package com.cqsd.data.vo;
 
+import com.cqsd.data.entry.SysMenus;
 import com.cqsd.data.mapper.SysMenusMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,7 @@ class TreeDataTest {
 				.filter(v -> v.getType() == 0 || v.getType() == 1)
 				.filter(v -> v.getStatus() == 0)
 				.collect(Collectors.toList());
-		final var cacheMap = rowData.stream()
+		final var cacheMap = rowData.parallelStream()
 				.map(sysMenus -> TreeData.of(sysMenus.getId(),
 						sysMenus.getTitle(),
 						sysMenus.getPath(),
@@ -37,7 +38,7 @@ class TreeDataTest {
 				))
 				.collect(Collectors.toMap(TreeData::getId, v -> v));
 		
-		final var treeDataList = rowData.stream()
+		final var treeDataList = rowData.parallelStream()
 				.filter(v -> {
 					if (v.getParent_id() != null) {
 						//通过父id找到系统管理
