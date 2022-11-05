@@ -1,7 +1,7 @@
 package com.cqsd.net.auth.filter;
 
 import com.cqsd.data.utils.SecurityUtils;
-import com.cqsd.data.utils.TokenManager1;
+import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.util.JsonUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -64,10 +64,10 @@ public class VerifyTokenFilter extends HttpFilter {
 			chain.doFilter(request, response);
 			return;
 		}
-		final var token = request.getHeader(TokenManager1.TOKEN_NAME);
+		final var token = request.getHeader(TokenManager.TOKEN_NAME);
 		if (StringUtils.hasLength(token)) {
-			if (TokenManager1.containsKey(token)) {
-				final var user = TokenManager1.getUser(token);
+			if (TokenManager.containsKey(token)) {
+				final var user = TokenManager.getUser(token);
 				final var authenticationToken = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
 				SecurityUtils.setAuthentication(authenticationToken);
 				chain.doFilter(request, response);

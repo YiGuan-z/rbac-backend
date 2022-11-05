@@ -1,8 +1,6 @@
 package com.cqsd.net.auth;
 
-import com.cqsd.data.entry.auth.UserLogin;
-import com.cqsd.data.utils.TokenManager1;
-import com.cqsd.data.utils.UserInfo;
+import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.util.JsonUtil;
 import org.springframework.security.core.Authentication;
@@ -24,8 +22,8 @@ public class LogoutHandler implements LogoutSuccessHandler {
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 //		final var user = (UserLogin)authentication.getPrincipal();
-		final var token = request.getHeader(TokenManager1.TOKEN_NAME);
-		TokenManager1.remove(token);
+		final var token = request.getHeader(TokenManager.TOKEN_NAME);
+		TokenManager.remove(token);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		JsonUtil.writeJson(response.getWriter(), JsonResult.success());

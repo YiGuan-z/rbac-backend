@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,7 @@ public class UserLogin implements UserDetails {
 	private String username;
 	private String password;
 	private String token;
+	private Long id;
 	private List<GrantedAuthority> authorities;
 	
 	public UserLogin(String username, String password, List<String> authorities) {
@@ -29,6 +31,14 @@ public class UserLogin implements UserDetails {
 		if (!CollectionUtils.isEmpty(authorities)){
 			this.authorities = authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 		}
+	}
+	
+	public void setAuthorities(List<GrantedAuthority> authorities) {
+		if (CollectionUtils.isEmpty(authorities)){
+			this.authorities= Collections.emptyList();
+			return;
+		}
+		this.authorities = authorities;
 	}
 	
 	/**

@@ -6,16 +6,17 @@ import com.cqsd.data.mapper.EmployeeMapper;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.service.base.BaseServiceImpl;
+import com.cqsd.data.utils.AutoCopy;
 import com.cqsd.data.utils.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
-import com.cqsd.data.utils.TokenManager1;
-import com.cqsd.data.utils.UserInfo;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, EmployeeMapper> implements EmployeeService {
@@ -35,10 +36,11 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, 
 		Objects.requireNonNull(employee, "用户不存在");
 		if (employee.getPassword().equals(password)) {
 			final var token = TokenManager.createToken();
-			final var userInfo = UserInfo.of(employee);
 			//往新的token管理器添加用户对象
-			TokenManager1.addUser(token, new UserLogin(username, password, getExpressionByEmpId(employee.getId())));
-			TokenManager.addUser(token, userInfo);
+			final var login = AutoCopy.of(employee, UserLogin.class);
+			assert login != null;
+			login.setAuthorities(getExpressionByEmpId(employee.getId()).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+			TokenManager.addUser(token,login);
 			return token;
 		}
 		throw new LoginExeption("用户密码错误");
