@@ -102,7 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//设置需要调用的用户认证service
 				.userDetailsService(service)
 				//设置记住我变量为ok
-				.rememberMeParameter("ok").and().logout().logoutSuccessHandler(logoutSuccessHandler).logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/logout")).and()
+				.rememberMeParameter("ok").and().logout().logoutSuccessHandler(logoutSuccessHandler).logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/employee/logout")).and()
 				//将自定义过滤器添加到用户名密码过滤器之前
 				.addFilterBefore(tokenManager, UsernamePasswordAuthenticationFilter.class);
 		

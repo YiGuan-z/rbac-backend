@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 登出成功回掉函数，用于清除token
  * @author caseycheng
  * @date 2022/11/4-19:41
  **/
@@ -22,8 +23,9 @@ import java.io.IOException;
 public class LogoutHandler implements LogoutSuccessHandler {
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		final var user = (UserLogin)authentication.getPrincipal();
-		TokenManager1.remove(user.getToken());
+//		final var user = (UserLogin)authentication.getPrincipal();
+		final var token = request.getHeader(TokenManager1.TOKEN_NAME);
+		TokenManager1.remove(token);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		JsonUtil.writeJson(response.getWriter(), JsonResult.success());
