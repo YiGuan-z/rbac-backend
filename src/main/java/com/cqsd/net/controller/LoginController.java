@@ -1,6 +1,6 @@
 package com.cqsd.net.controller;
 
-import com.cqsd.data.entry.auth.UserLogin;
+import com.cqsd.auth.entry.UserLogin;
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.utils.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
@@ -37,7 +37,6 @@ public class LoginController {
 		SecurityUtils.setAuthentication(authenticationToken);
 		final var info = (UserLogin) authenticate.getPrincipal();
 		final var token = TokenManager.createToken();
-		info.setToken(token);
 		TokenManager.addUser(token, info);
 		return token;
 	}

@@ -114,4 +114,10 @@
           and menu.status = 0
           and menu.type = 2
     </select>
+    <select id="selectRole" resultType="java.lang.String">
+        select roles.name
+        from sys_roles roles
+                 right join sys_employee_role ser on roles.id = ser.role_id
+        where employee_id=#{id}
+    </select>
 </mapper>

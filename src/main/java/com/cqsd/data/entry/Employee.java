@@ -41,6 +41,9 @@ public class Employee {
     /** */
     private Date hireDate;
     
+    public Boolean getAdmin() {
+        return admin != null;
+    }
     
     @Override
     public String toString() {

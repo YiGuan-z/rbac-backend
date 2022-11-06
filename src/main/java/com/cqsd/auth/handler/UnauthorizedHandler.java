@@ -1,4 +1,4 @@
-package com.cqsd.net.auth;
+package com.cqsd.auth.handler;
 
 import com.cqsd.data.utils.SecurityUtils;
 import com.cqsd.data.vo.JsonResult;
@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.csrf.InvalidCsrfTokenException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 /**
  * 检查授权
+ *
  * @author caseycheng
  * @date 2022/11/4-20:53
  **/
@@ -36,11 +38,11 @@ public class UnauthorizedHandler implements AccessDeniedHandler {
 		final var user = SecurityUtils.getLoginUser();
 		//403
 		final var status = HttpStatus.FORBIDDEN.value();
-		log.warn("[{}访问拒绝]源ip{}想要访问资源{}，鉴权失败，请求已击毁",user.getUsername(),request.getRemoteAddr(),request.getRequestURI());
+		log.warn("[{}访问拒绝]源ip{}想要访问资源{}，鉴权失败，请求已击毁,错误类型为{}", user.getUsername(), request.getRemoteAddr(), request.getRequestURI(), accessDeniedException.getClass());
 		final var ret = JsonResult.failed(status, "你无权访问");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
-		JsonUtil.writeJson(response.getWriter(),ret);
+		JsonUtil.writeJson(response.getWriter(), ret);
 		
 	}
 }

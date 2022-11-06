@@ -1,4 +1,4 @@
-package com.cqsd.data.entry.auth;
+package com.cqsd.auth.entry;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 public class UserLogin implements UserDetails {
 	private String username;
 	private String password;
-	private String token;
 	private Long id;
 	private List<GrantedAuthority> authorities;
+	private List<String> expressions;
 	
 	public UserLogin(String username, String password, List<String> authorities) {
 		this.username = username;
@@ -33,12 +33,12 @@ public class UserLogin implements UserDetails {
 		}
 	}
 	
-	public void setAuthorities(List<GrantedAuthority> authorities) {
+	public void setAuthorities(List<String> authorities) {
 		if (CollectionUtils.isEmpty(authorities)){
-			this.authorities= Collections.emptyList();
+			this.authorities=Collections.emptyList();
 			return;
 		}
-		this.authorities = authorities;
+		this.authorities=authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 	
 	/**
@@ -117,4 +117,6 @@ public class UserLogin implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	
 }

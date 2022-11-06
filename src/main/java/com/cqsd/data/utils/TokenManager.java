@@ -1,6 +1,6 @@
 package com.cqsd.data.utils;
 
-import com.cqsd.data.entry.auth.UserLogin;
+import com.cqsd.auth.entry.UserLogin;
 
 import java.util.Map;
 import java.util.UUID;

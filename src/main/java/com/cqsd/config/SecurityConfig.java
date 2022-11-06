@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//关闭csrf防护
-		http.csrf().ignoringAntMatchers("/api/v1/employee/login").and().authorizeRequests()
+		http.csrf().disable()/*.ignoringAntMatchers("/api/v1/employee/login")*/.authorizeRequests()
 				//将login设置为只能匿名调用
 				.antMatchers("/api/v1/employee/login").permitAll()
 				//对任何请求都进行鉴权操作

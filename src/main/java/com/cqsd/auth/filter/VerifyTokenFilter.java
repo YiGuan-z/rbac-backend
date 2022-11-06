@@ -1,10 +1,13 @@
-package com.cqsd.net.auth.filter;
+package com.cqsd.auth.filter;
 
+import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.utils.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.util.JsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author caseycheng
@@ -23,6 +27,8 @@ import java.util.List;
 @Component
 public class VerifyTokenFilter extends HttpFilter {
 	private static final List<String> Whitelist = List.of("/api/v1/employee/login");
+	@Autowired
+	private EmployeeService service;
 	
 	/**
 	 * The <code>doFilter</code> method of the Filter is called by the container
@@ -68,7 +74,10 @@ public class VerifyTokenFilter extends HttpFilter {
 		if (StringUtils.hasLength(token)) {
 			if (TokenManager.containsKey(token)) {
 				final var user = TokenManager.getUser(token);
-				final var authenticationToken = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+				final var expression = service.getExpressionByEmpId(user.getId());
+				//更新权限
+				final var authorityList = expression.parallelStream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+				final var authenticationToken = new UsernamePasswordAuthenticationToken(user, user.getPassword(), authorityList);
 				SecurityUtils.setAuthentication(authenticationToken);
 				chain.doFilter(request, response);
 				return;

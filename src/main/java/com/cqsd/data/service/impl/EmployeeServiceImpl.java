@@ -1,7 +1,7 @@
 package com.cqsd.data.service.impl;
 
 import com.cqsd.data.entry.Employee;
-import com.cqsd.data.entry.auth.UserLogin;
+import com.cqsd.auth.entry.UserLogin;
 import com.cqsd.data.mapper.EmployeeMapper;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeService;
@@ -9,14 +9,12 @@ import com.cqsd.data.service.base.BaseServiceImpl;
 import com.cqsd.data.utils.AutoCopy;
 import com.cqsd.data.utils.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, EmployeeMapper> implements EmployeeService {
@@ -39,8 +37,10 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, 
 			//往新的token管理器添加用户对象
 			final var login = AutoCopy.of(employee, UserLogin.class);
 			assert login != null;
-			login.setAuthorities(getExpressionByEmpId(employee.getId()).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-			TokenManager.addUser(token,login);
+			final var expression = getExpressionByEmpId(employee.getId());
+			login.setAuthorities(expression);
+			login.setExpressions(expression);
+			TokenManager.addUser(token, login);
 			return token;
 		}
 		throw new LoginExeption("用户密码错误");
@@ -62,7 +62,22 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, 
 //		where emp.id = 1
 //		and menu.status = 0
 //		and menu.type = 2
-		return mapper.selectExpression(id);
+		//role
+//		select roles.*
+//		from sys_roles roles
+//		right join sys_employee_role ser on roles.id = ser.role_id
+//		where employee_id=2;
+		List<String> ret;
+		ret = mapper.selectExpression(id);
+		List<String> roles = mapper.selectRole(id);
+		final var iterator = roles.listIterator();
+		while (iterator.hasNext()) {
+			final var next = iterator.next();
+			final var role = toRole(next);
+			iterator.set(role);
+		}
+		ret.addAll(roles);
+		return ret;
 	}
 	
 	/**
@@ -80,11 +95,21 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		final var employee = mapper.selectByUserName(username);
-		if (Objects.nonNull(employee)) {
-			return new UserLogin(employee.getUsername(), employee.getPassword(), getExpressionByEmpId(employee.getId()));
-		} else {
-			throw new UsernameNotFoundException("世界咀嚼了你");
-		}
+		final var login = AutoCopy.of(employee, UserLogin.class);
 		
+		if (employee.getAdmin()) {
+			Objects.requireNonNull(login).setAuthorities(getExpressionByEmpId(employee.getId()));
+			return login;
+		} else if (Objects.nonNull(employee)) {
+			
+			Objects.requireNonNull(login).setAuthorities(getExpressionByEmpId(employee.getId()));
+			return login;
+		} else {
+			throw new UsernameNotFoundException("世界咀嚼了你，你不存在于这个世界上");
+		}
+	}
+	
+	public static String toRole(String role) {
+		return "ROLE_" + role;
 	}
 }

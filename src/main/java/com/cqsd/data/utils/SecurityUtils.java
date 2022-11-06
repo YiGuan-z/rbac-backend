@@ -24,6 +24,17 @@ public class SecurityUtils {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static <T extends UserDetails> T getLoginUser(Class<T> clazz) {
+		try {
+			return (T) getContext()
+					.getAuthentication()
+					.getPrincipal();
+		} catch (Exception e) {
+			throw new RuntimeException("用户未登陆");
+		}
+	}
+	
 	public static String encodePassword(String password) {
 		return encoder.encode(password);
 	}
