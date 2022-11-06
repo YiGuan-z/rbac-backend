@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//关闭csrf防护
 		http.csrf().ignoringAntMatchers("/api/v1/employee/login").and().authorizeRequests()
 				//将login设置为只能匿名调用
-				.antMatchers("/api/v1/employee/login").anonymous()
+				.antMatchers("/api/v1/employee/login").permitAll()
 				//对任何请求都进行鉴权操作
 				.anyRequest().authenticated().and()
 				//配置异常处理

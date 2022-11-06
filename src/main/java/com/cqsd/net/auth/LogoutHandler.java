@@ -21,7 +21,6 @@ import java.io.IOException;
 public class LogoutHandler implements LogoutSuccessHandler {
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//		final var user = (UserLogin)authentication.getPrincipal();
 		final var token = request.getHeader(TokenManager.TOKEN_NAME);
 		TokenManager.remove(token);
 		response.setCharacterEncoding("UTF-8");
