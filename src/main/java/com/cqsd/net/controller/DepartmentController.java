@@ -6,18 +6,16 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.DepartmentService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/v1/deparment")
-public class DeparmentController extends BaseController<Department, QueryObject,DepartmentService> {
+@RequestMapping("/api/v1/department")
+public class DepartmentController extends BaseController<Department, QueryObject,DepartmentService> {
 	
-	public DeparmentController(DepartmentService service) {
+	public DepartmentController(DepartmentService service) {
 		super(service);
 	}
 	

@@ -4,16 +4,10 @@ import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.vo.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 //@RestControllerAdvice
 @Slf4j
-public class ExcptionHanderAdvice {
-	//用户登陆失败异常
-//	@ExceptionHandler(EmployeeService.LoginExeption.class)
-//	public JsonResult<?> loginExceptionHandler(Exception e) {
-//		return JsonResult.failed(401, e.getMessage());
-//	}
+public class ExceptionHandlerAdvice {
 	
 	@ExceptionHandler(Throwable.class)
 	public JsonResult<?> defaultExceptionHandler(Throwable e) {
