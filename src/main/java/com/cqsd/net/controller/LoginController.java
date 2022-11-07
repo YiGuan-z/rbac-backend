@@ -1,8 +1,8 @@
 package com.cqsd.net.controller;
 
-import com.cqsd.auth.entry.UserLogin;
+import com.cqsd.auth.security.entry.UserLoginInfo;
 import com.cqsd.data.service.EmployeeService;
-import com.cqsd.data.utils.SecurityUtils;
+import com.cqsd.auth.security.util.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +35,7 @@ public class LoginController {
 		final var authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 		final var authenticate = authenticationManager.authenticate(authenticationToken);
 		SecurityUtils.setAuthentication(authenticationToken);
-		final var info = (UserLogin) authenticate.getPrincipal();
+		final var info = (UserLoginInfo) authenticate.getPrincipal();
 		final var token = TokenManager.createToken();
 		TokenManager.addUser(token, info);
 		return token;

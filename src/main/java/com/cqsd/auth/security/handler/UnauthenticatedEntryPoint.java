@@ -1,4 +1,4 @@
-package com.cqsd.auth.handler;
+package com.cqsd.auth.security.handler;
 
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.util.JsonUtil;
@@ -43,7 +43,7 @@ public class UnauthenticatedEntryPoint implements AuthenticationEntryPoint {
 		} else if (authException instanceof BadCredentialsException) {
 			log.warn("[登陆异常处理] 用户密码错误");
 		}else {
-			log.warn("[其它异常] 系统出现异常");
+			log.warn("[其它异常] 系统出现异常:\r{}",authException.getMessage());
 		}
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");

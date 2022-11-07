@@ -1,4 +1,4 @@
-package com.cqsd.data.utils;
+package com.cqsd.util;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.objenesis.instantiator.util.UnsafeUtils;

@@ -1,5 +1,6 @@
-package com.cqsd.auth.entry;
+package com.cqsd.auth.security.entry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,14 +19,15 @@ import java.util.stream.Collectors;
  **/
 @Getter
 @Setter
-public class UserLogin implements UserDetails {
+public class UserLoginInfo implements UserDetails {
 	private String username;
 	private String password;
 	private Long id;
+	@JsonIgnore
 	private List<GrantedAuthority> authorities;
 	private List<String> expressions;
 	
-	public UserLogin(String username, String password, List<String> authorities) {
+	public UserLoginInfo(String username, String password, List<String> authorities) {
 		this.username = username;
 		this.password = password;
 		if (!CollectionUtils.isEmpty(authorities)){

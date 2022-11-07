@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cqsd.data.mapper.DictDataMapper">
+    <resultMap id="BaseResultMap" type="com.cqsd.data.entry.dist.DictData">
+        <id property="id" column="id"/>
+        <result property="dictType" column="dict_type"/>
+        <result property="label" column="label"/>
+        <result property="value" column="value"/>
+        <result property="seq" column="seq"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey">
+        delete
+        from sys_dict_data
+        where id = #{id}
+    </delete>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_dict_data (dict_type, label, value, seq, remark)
+        values (#{dictType}, #{label}, #{value}, #{seq}, #{remark})
+    </insert>
+    <update id="updateByPrimaryKey">
+        update sys_dict_data
+        <set>
+            <if test="dictType != null and dictType != ''">
+                dict_type=#{dictType},
+            </if>
+            <if test="label != null and label != ''">
+                label=#{label},
+            </if>
+            <if test="value !=null and value !=''">
+                value=#{value}
+            </if>
+            <if test="seq !=null">
+                seq=#{seq}
+            </if>
+            <if test="remark !=null and remark !=''">
+                remark=#{remark}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select id, dict_type, label, value, seq, remark
+        from sys_dict_data
+        where id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, dict_type, label, value, seq, remark
+        from sys_dict_data
+    </select>
+    <select id="findByQueryObject" resultMap="BaseResultMap">
+        select id,dict_type,label,value,seq,remark
+        from sys_dict_data
+        <where>
+            <if test="keyword != null">
+                (label like concat('%', #{keyword}, '%') or remake like concat('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,6 +1,8 @@
 package com.cqsd.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper;
+import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(MvcConfig.class)
+@MapperScans({@MapperScan("com.cqsd.data.mapper")})
 @ConfigurationProperties(prefix = "my.db")
 public class AppConfig {
 	private String driverClassName;

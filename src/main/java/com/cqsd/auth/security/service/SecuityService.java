@@ -1,4 +1,4 @@
-package com.cqsd.auth.service;
+package com.cqsd.auth.security.service;
 
 public interface SecuityService {
  boolean hasAuthority(String expression);

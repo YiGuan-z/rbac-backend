@@ -1,4 +1,4 @@
-package com.cqsd.data.annotation.utils;
+package com.cqsd.auth.aop.util;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.core.annotation.AnnotationUtils;

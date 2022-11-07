@@ -1,13 +1,12 @@
-package com.cqsd.auth.handler;
+package com.cqsd.auth.security.handler;
 
-import com.cqsd.data.utils.SecurityUtils;
+import com.cqsd.auth.security.util.SecurityUtils;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.csrf.InvalidCsrfTokenException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;

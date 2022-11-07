@@ -1,4 +1,4 @@
-package com.cqsd.data.utils;
+package com.cqsd.auth.security.util;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

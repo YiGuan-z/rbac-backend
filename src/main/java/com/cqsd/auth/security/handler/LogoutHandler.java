@@ -1,4 +1,4 @@
-package com.cqsd.auth.handler;
+package com.cqsd.auth.security.handler;
 
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;

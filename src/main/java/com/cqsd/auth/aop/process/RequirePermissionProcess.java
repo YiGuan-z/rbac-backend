@@ -1,4 +1,4 @@
-package com.cqsd.data.annotation.hander;
+package com.cqsd.auth.aop.process;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -6,7 +6,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.lang.annotation.Annotation;
@@ -14,8 +13,8 @@ import java.util.Arrays;
 
 @Component
 @Aspect
-public class LoggerHandle {
-	@Pointcut("@annotation(com.cqsd.data.annotation.RequirePermission)")
+public class RequirePermissionProcess {
+	@Pointcut("@annotation(com.cqsd.auth.aop.annotation.RequirePermission)")
 	public void pointcut() {
 	}
 	

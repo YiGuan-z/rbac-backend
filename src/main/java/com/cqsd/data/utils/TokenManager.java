@@ -1,6 +1,6 @@
 package com.cqsd.data.utils;
 
-import com.cqsd.auth.entry.UserLogin;
+import com.cqsd.auth.security.entry.UserLoginInfo;
 
 import java.util.Map;
 import java.util.UUID;
@@ -12,21 +12,21 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 abstract public class TokenManager {
 	public static final String TOKEN_NAME = "X-Token";
-	public static Map<String, UserLogin> TOKEN_MAP = new ConcurrentHashMap<>(100);
+	public static Map<String, UserLoginInfo> TOKEN_MAP = new ConcurrentHashMap<>(100);
 	
 	public static String createToken() {
 		return UUID.randomUUID().toString().replace("-", "");
 	}
 	
-	public static void addUser(String token, UserLogin userInfo) {
+	public static void addUser(String token, UserLoginInfo userInfo) {
 		TOKEN_MAP.put(token, userInfo);
 	}
 	
-	public static UserLogin getUser(String token) {
+	public static UserLoginInfo getUser(String token) {
 		return TOKEN_MAP.get(token);
 	}
 	
-	public static UserLogin remove(String token) {
+	public static UserLoginInfo remove(String token) {
 		return TOKEN_MAP.remove(token);
 	}
 	

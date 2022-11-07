@@ -1,12 +1,11 @@
-package com.cqsd.auth.filter;
+package com.cqsd.auth.security.filter;
 
 import com.cqsd.data.service.EmployeeService;
-import com.cqsd.data.utils.SecurityUtils;
+import com.cqsd.auth.security.util.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

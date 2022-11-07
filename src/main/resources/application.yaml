@@ -21,7 +21,7 @@ logging:
 pagehelper:
   #  合理化参数
   reasonable: true
-  #如果每一页显示为0，就查询所有数据
+  #如果参数为0，就自动纠正数据
   page-size-zero: true
 my:
   db:

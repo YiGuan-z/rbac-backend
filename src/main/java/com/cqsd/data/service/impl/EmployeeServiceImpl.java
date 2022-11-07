@@ -1,13 +1,13 @@
 package com.cqsd.data.service.impl;
 
 import com.cqsd.data.entry.Employee;
-import com.cqsd.auth.entry.UserLogin;
+import com.cqsd.auth.security.entry.UserLoginInfo;
 import com.cqsd.data.mapper.EmployeeMapper;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.service.base.BaseServiceImpl;
-import com.cqsd.data.utils.AutoCopy;
-import com.cqsd.data.utils.SecurityUtils;
+import com.cqsd.util.AutoCopy;
+import com.cqsd.auth.security.util.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,7 +36,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, 
 		if (employee.getPassword().equals(password)) {
 			final var token = TokenManager.createToken();
 			//往新的token管理器添加用户对象
-			final var login = AutoCopy.of(employee, UserLogin.class);
+			final var login = AutoCopy.of(employee, UserLoginInfo.class);
 			assert login != null;
 			final var expression = getExpressionByEmpId(employee.getId());
 			login.setAuthorities(expression);
@@ -96,7 +96,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		final var employee = mapper.selectByUserName(username);
-		final var login = AutoCopy.of(employee, UserLogin.class);
+		final var login = AutoCopy.of(employee, UserLoginInfo.class);
 		
 		if (employee.getAdmin()) {
 			Objects.requireNonNull(login).setAuthorities(getExpressionByEmpId(employee.getId()));

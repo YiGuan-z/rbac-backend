@@ -1,4 +1,4 @@
-package com.cqsd.data.annotation;
+package com.cqsd.auth.aop.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

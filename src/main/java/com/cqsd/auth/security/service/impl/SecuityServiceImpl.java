@@ -1,8 +1,8 @@
-package com.cqsd.auth.service.impl;
+package com.cqsd.auth.security.service.impl;
 
-import com.cqsd.auth.entry.UserLogin;
-import com.cqsd.auth.service.SecuityService;
-import com.cqsd.data.utils.SecurityUtils;
+import com.cqsd.auth.security.entry.UserLoginInfo;
+import com.cqsd.auth.security.service.SecuityService;
+import com.cqsd.auth.security.util.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class SecuityServiceImpl implements SecuityService {
 	@Override
 	public boolean hasAuthority(String expression) {
-		final var expressions = SecurityUtils.getLoginUser(UserLogin.class).getExpressions();
+		final var expressions = SecurityUtils.getLoginUser(UserLoginInfo.class).getExpressions();
 		return expressions.contains("*:*:*") || expressions.contains(expression);
 	}
 	
@@ -22,7 +22,7 @@ public class SecuityServiceImpl implements SecuityService {
 		if (!role.startsWith("ROLE_")) {
 			role = "ROLE_" + role;
 		}
-		final var expressions = SecurityUtils.getLoginUser(UserLogin.class).getExpressions();
+		final var expressions = SecurityUtils.getLoginUser(UserLoginInfo.class).getExpressions();
 		return expressions.contains("ROLE_admin") || expressions.contains(role);
 	}
 }
