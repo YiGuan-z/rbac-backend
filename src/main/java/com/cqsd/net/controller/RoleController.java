@@ -5,13 +5,14 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.RoleService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
+import com.cqsd.net.base.HttpContrroller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
 @RestController
 @RequestMapping("api/v1/role")
-public class RoleController extends BaseController<Role, QueryObject,RoleService> {
+public class RoleController extends HttpContrroller<Role, QueryObject,RoleService> {
 	
 	public RoleController(RoleService service) {
 		super(service);

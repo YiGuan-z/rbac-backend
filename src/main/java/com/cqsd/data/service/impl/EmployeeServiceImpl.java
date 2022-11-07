@@ -29,6 +29,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, QueryObject, 
 	}
 	
 	@Override
+	@Deprecated
 	public String login(String username, String password) throws LoginExeption {
 		Employee employee = mapper.selectByUserName(username);
 		Objects.requireNonNull(employee, "用户不存在");

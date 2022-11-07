@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 public interface EmployeeService extends BaseService<Employee, QueryObject>, UserDetailsService {
+	@Deprecated
 	String login(String username, String password) throws LoginExeption;
 	
 	void deleteByIds(List<Long> ids);

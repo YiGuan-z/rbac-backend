@@ -5,6 +5,7 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.SysRoleService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
+import com.cqsd.net.base.HttpContrroller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import static com.cqsd.data.vo.JsonResult.success;
 
 @RestController
 @RequestMapping("/api/v1/system")
-public class SysRoleMenuController extends BaseController<SysRoleMenu, QueryObject,SysRoleService> {
+public class SysRoleMenuController extends HttpContrroller<SysRoleMenu, QueryObject,SysRoleService> {
 	
 	public SysRoleMenuController(SysRoleService service) {
 		super(service);

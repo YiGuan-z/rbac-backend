@@ -77,7 +77,7 @@ public class VerifyTokenFilter extends HttpFilter {
 				final var expression = service.getExpressionByEmpId(user.getId());
 				//更新权限
 				final var authorityList = expression.parallelStream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-				final var authenticationToken = new UsernamePasswordAuthenticationToken(user, user.getPassword(), authorityList);
+				final var authenticationToken = SecurityUtils.ofUsernamePasswordAuthenticationToken(user, user.getPassword(), authorityList);
 				SecurityUtils.setAuthentication(authenticationToken);
 				chain.doFilter(request, response);
 				return;

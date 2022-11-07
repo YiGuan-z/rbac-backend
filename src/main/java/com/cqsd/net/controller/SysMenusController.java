@@ -5,7 +5,7 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.SysMenuService;
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
-import com.cqsd.net.base.BaseController;
+import com.cqsd.net.base.HttpContrroller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import static com.cqsd.data.vo.JsonResult.success;
 
 @RequestMapping("/api/v1/system")
 @RestController
-public class SysMenusController extends BaseController<SysMenus, QueryObject, SysMenuService> {
+public class SysMenusController extends HttpContrroller<SysMenus, QueryObject, SysMenuService> {
 	
 	public SysMenusController(SysMenuService service) {
 		super(service);

@@ -2,10 +2,12 @@ package com.cqsd.net.controller;
 
 import com.cqsd.data.annotation.RequirePermission;
 import com.cqsd.data.entry.Department;
+import com.cqsd.data.mapper.DepartmentMapper;
 import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.DepartmentService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
+import com.cqsd.net.base.HttpContrroller;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +15,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/department")
-public class DepartmentController extends BaseController<Department, QueryObject,DepartmentService> {
+public class DepartmentController extends HttpContrroller<Department, QueryObject,DepartmentService> {
 	
 	public DepartmentController(DepartmentService service) {
 		super(service);

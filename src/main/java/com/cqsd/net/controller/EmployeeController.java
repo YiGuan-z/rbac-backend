@@ -5,6 +5,7 @@ import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeService;
 import com.cqsd.data.vo.JsonResult;
 import com.cqsd.net.base.BaseController;
+import com.cqsd.net.base.HttpContrroller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/employee")
-public class EmployeeController extends BaseController<Employee, QueryObject, EmployeeService> {
+public class EmployeeController extends HttpContrroller<Employee, QueryObject, EmployeeService> {
 	
 	public EmployeeController(EmployeeService service) {
 		super(service);
