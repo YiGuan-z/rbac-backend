@@ -7,28 +7,16 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 public interface BaseService<T, R extends QueryObject> {
-	default void save(T record) {
-		throw new RuntimeException("该方法未实现");
-	}
+	void save(T record);
 	
-	default void deleteById(Long id) {
-		throw new RuntimeException("该方法未实现");
-	}
+	void deleteById(Long id);
 	
-	default void updateById(T record) {
-		throw new RuntimeException("该方法未实现");
-	}
+	void updateById(T record);
 	
-	default T findById(Long id) {
-		throw new RuntimeException("该方法未实现");
-	}
+	T findById(Long id);
 	
-	default PageInfo<T> findByQueryObject(R qo) {
-		throw new RuntimeException("该方法未实现");
-	}
+	PageInfo<T> findByQueryObject(R qo);
 	
-	default List<T> selectAll() {
-		throw new RuntimeException("该方法未实现");
-	}
+	List<T> selectAll();
 	
 }

@@ -42,7 +42,7 @@ abstract public class BaseServiceImpl<T, R extends QueryObject, I extends BaseMa
 		return PageInfo.of(page);
 	}
 	
-	public List<T> selectAll(R queryObject) {
+	public List<T> selectAll(){
 		return mapper.selectAll();
 	}
 }

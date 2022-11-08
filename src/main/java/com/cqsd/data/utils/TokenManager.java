@@ -2,6 +2,7 @@ package com.cqsd.data.utils;
 
 import com.cqsd.auth.security.entry.UserLoginInfo;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,8 +27,8 @@ abstract public class TokenManager {
 		return TOKEN_MAP.get(token);
 	}
 	
-	public static UserLoginInfo remove(String token) {
-		return TOKEN_MAP.remove(token);
+	public static void remove(String token) {
+		TOKEN_MAP.remove(token);
 	}
 	
 	public static boolean containsKey(String key) {
@@ -40,5 +41,8 @@ abstract public class TokenManager {
 	
 	public static boolean include(String token) {
 		return TOKEN_MAP.containsKey(token);
+	}
+	public static boolean includeAll(String... tokens){
+		return Arrays.stream(tokens).allMatch(TokenManager::include);
 	}
 }

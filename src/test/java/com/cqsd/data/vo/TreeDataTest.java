@@ -1,6 +1,5 @@
 package com.cqsd.data.vo;
 
-import com.cqsd.data.entry.SysMenus;
 import com.cqsd.data.mapper.SysMenusMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

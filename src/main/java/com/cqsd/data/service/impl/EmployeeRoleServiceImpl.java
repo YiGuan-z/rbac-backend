@@ -1,8 +1,13 @@
 package com.cqsd.data.service.impl;
 
+import com.cqsd.data.entry.Employee;
 import com.cqsd.data.entry.EmployeeRole;
+import com.cqsd.data.mapper.EmployeeMapper;
 import com.cqsd.data.mapper.EmployeeRoleMapper;
+import com.cqsd.data.qo.QueryObject;
 import com.cqsd.data.service.EmployeeRoleService;
+import com.cqsd.data.service.EmployeeService;
+import com.cqsd.data.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,11 +15,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class EmployeeRoleServiceImpl implements EmployeeRoleService {
-	private final EmployeeRoleMapper mapper;
+public class EmployeeRoleServiceImpl extends BaseServiceImpl<EmployeeRole, QueryObject, EmployeeRoleMapper> implements EmployeeRoleService {
 	
-	public EmployeeRoleServiceImpl(EmployeeRoleMapper service) {
-		this.mapper = service;
+	public EmployeeRoleServiceImpl(EmployeeRoleMapper mapper) {
+		super(mapper);
 	}
 	
 	@Override
