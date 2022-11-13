@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  **/
 @Component
 public class VerifyTokenFilter extends HttpFilter {
-	private static final List<String> Whitelist = List.of("/api/v1/employee/login");
+	private static final List<String> Whitelist = List.of("/api/v1/employee/login","/api/v1/employee/qr");
 	@Autowired
 	private EmployeeService service;
 	

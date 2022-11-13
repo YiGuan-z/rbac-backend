@@ -5,10 +5,13 @@ import com.cqsd.data.service.EmployeeService;
 import com.cqsd.auth.security.util.SecurityUtils;
 import com.cqsd.data.utils.TokenManager;
 import com.cqsd.data.vo.JsonResult;
+import com.cqsd.net.entry.TokenInfo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 
 @RestController
@@ -23,15 +26,28 @@ public class LoginController {
 		this.authenticationManager = authenticationManager;
 	}
 	
-	@PostMapping(value = "/login")
+	/**
+	 * 需要两个login方法，一个验证表单登陆，一个验证二维码扫描登陆
+	 * @param user
+	 * @param verified
+	 * @return
+	 * @throws EmployeeService.LoginExeption
+	 */
+	@PostMapping(value = "/login/{t}")
 	@ResponseBody
-	public JsonResult<?> employeeLogin(@RequestBody User user) throws EmployeeService.LoginExeption {
-		final var token = login(user.username(), user.password());
+	public JsonResult<?> employeeLogin(@RequestBody User user, @PathVariable("t")Long verified) throws EmployeeService.LoginExeption {
+		final var token = login(user.username(), user.password(), verified);
 		
 		return JsonResult.success(token);
 	}
 	
-	private String login(String username, String password) {
+	private String login(String username, String password, Long verified) {
+		if (Objects.nonNull(verified)) {
+			final var info = TokenManager.getTokenInfo(verified);
+			//判断时间有效期如果失效，删除该未验证Token
+			final var flag = System.currentTimeMillis() - info.getCreateTime().getTime() >= 60 * 10 * 1_000;
+			
+		}
 		final var authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 		final var authenticate = authenticationManager.authenticate(authenticationToken);
 		SecurityUtils.setAuthentication(authenticationToken);

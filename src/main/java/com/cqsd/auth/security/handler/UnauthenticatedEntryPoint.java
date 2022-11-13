@@ -47,7 +47,7 @@ public class UnauthenticatedEntryPoint implements AuthenticationEntryPoint {
 		}
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
-		final var failed = JsonResult.failed(401, "failed");
+		final var failed = JsonResult.failed(401, authException.getMessage());
 		JsonUtil.writeJson(response.getWriter(), failed);
 		
 	}

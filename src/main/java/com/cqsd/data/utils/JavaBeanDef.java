@@ -41,11 +41,15 @@ public class JavaBeanDef<T> {
 	 *
 	 * @return 一个空的实例对象
 	 */
-	@SuppressWarnings("unchecked")
 	public T newInstance() {
+		return newInstance(clazz);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T newInstance(Class<? extends T> clazz) {
 		try {
 			return (T) unsafe.allocateInstance(clazz);
-		} catch (InstantiationException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -169,7 +173,6 @@ public class JavaBeanDef<T> {
 		checkClass(field.getType() != long.class);
 		return unsafe.getAndSetLong(resource, map.get(field), newValue);
 	}
-	
 	
 	private long getAndAddLong(Object resource, Field field, long delta) throws DangerousoperationException {
 		hit(field);
