@@ -1,11 +1,8 @@
 package com.cqsd.data.utils;
 
 import com.cqsd.data.entry.Employee;
+import com.cqsd.util.JavaBeanDef;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Field;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JavaBeanDefTest {
 	@Test

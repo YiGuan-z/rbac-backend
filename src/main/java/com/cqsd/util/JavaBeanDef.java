@@ -1,4 +1,4 @@
-package com.cqsd.data.utils;
+package com.cqsd.util;
 
 import com.cqsd.util.UnsafeUtil;
 import sun.misc.Unsafe;
@@ -164,25 +164,25 @@ public class JavaBeanDef<T> {
 	
 	private int getAndSetInt(Object resource, Field field, int newValue) throws DangerousoperationException {
 		hit(field);
-		checkClass(field.getType() != int.class);
+		asserts(field.getType() != int.class, "包装类型请使用getAndSetObject");
 		return unsafe.getAndSetInt(resource, map.get(field), newValue);
 	}
 	
 	private long getAndSetLong(Object resource, Field field, long newValue) throws DangerousoperationException {
 		hit(field);
-		checkClass(field.getType() != long.class);
+		asserts(field.getType() != long.class, "包装类型请使用getAndSetObject");
 		return unsafe.getAndSetLong(resource, map.get(field), newValue);
 	}
 	
 	private long getAndAddLong(Object resource, Field field, long delta) throws DangerousoperationException {
 		hit(field);
-		checkClass(field.getType() != long.class);
+		asserts(field.getType() != long.class, "包装类型请使用getAndSetObject");
 		return unsafe.getAndAddLong(resource, map.get(field), delta);
 	}
 	
 	private int getAndAddInt(Object resource, Field field, int delta) throws DangerousoperationException {
 		hit(field);
-		checkClass(field.getType() != int.class);
+		asserts(field.getType() != int.class, "包装类型请使用getAndSetObject");
 		return unsafe.getAndAddInt(resource, map.get(field), delta);
 	}
 	
@@ -192,12 +192,12 @@ public class JavaBeanDef<T> {
 	}
 	
 	private void hit(Field field) throws DangerousoperationException {
-		if (!concat(field)) throw new DangerousoperationException("未命中目标的偏移量，无法继续");
+		asserts(!concat(field), "未命中目标偏移量，无法继续");
 	}
 	
-	private static void checkClass(boolean field) throws DangerousoperationException {
-		if (field) {
-			throw new DangerousoperationException("包装类型请使用getAndSetObject");
+	private static void asserts(boolean asserts, String message) throws DangerousoperationException {
+		if (asserts) {
+			throw new DangerousoperationException(message);
 		}
 	}
 	
@@ -205,7 +205,10 @@ public class JavaBeanDef<T> {
 		return value;
 	}
 	
-	static class DangerousoperationException extends Exception {
+	public static long allocateMemory(long bytes){
+		return unsafe.allocateMemory(bytes);
+	}
+	public static class DangerousoperationException extends Exception {
 		/**
 		 * Constructs a new exception with the specified detail message.  The
 		 * cause is not initialized, and may subsequently be initialized by

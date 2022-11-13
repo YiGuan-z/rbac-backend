@@ -1,9 +1,6 @@
 package com.cqsd.util;
 
-import com.cqsd.data.utils.JavaBeanDef;
 import org.springframework.beans.BeanUtils;
-import org.springframework.objenesis.instantiator.util.UnsafeUtils;
-import sun.misc.Unsafe;
 
 import java.io.Serializable;
 
