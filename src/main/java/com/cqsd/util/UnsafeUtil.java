@@ -2,14 +2,12 @@ package com.cqsd.util;
 
 import sun.misc.Unsafe;
 
-import java.lang.reflect.Field;
-
 /**
  * @author caseycheng
  * @date 2022/11/7-21:34
  **/
 public class UnsafeUtil {
-	private static Unsafe unsafe = null;
+	private static final Unsafe unsafe;
 	
 	static {
 		try {

@@ -1,11 +1,11 @@
 package com.cqsd.util;
 
-import com.cqsd.util.UnsafeUtil;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -16,13 +16,23 @@ import java.util.stream.Collectors;
 public class JavaBeanDef<T> {
 	private final static Unsafe unsafe = UnsafeUtil.getUnsafe();
 	private final Class<T> clazz;
-	private final T value;
-	private final Map<Field, Long> map = new HashMap<>();
+	private  T value;
+	private final Map<Field, Long> filedMap;
+	private final Map<String, Method> methodMap;
 	
-	public JavaBeanDef(Class<T> clazz) {
+	public JavaBeanDef(Class<T> clazz,boolean newInstance) {
 		this.clazz = clazz;
-		map.putAll(Arrays.stream(clazz.getDeclaredFields()).collect(Collectors.toMap((Field v) -> v, unsafe::objectFieldOffset)));
-		this.value = newInstance();
+		this.filedMap = (Arrays.stream(clazz.getDeclaredFields())
+				.collect(Collectors.toMap((Field v) -> v, unsafe::objectFieldOffset)));
+		this.methodMap = Arrays.stream(clazz.getDeclaredMethods())
+				.collect(Collectors.toMap(Method::getName, method -> method));
+		if (newInstance){
+			this.value = newInstance();
+		}
+	}
+	public JavaBeanDef<T> setValue(T value) {
+		this.value = value;
+		return this;
 	}
 	
 	/**
@@ -32,8 +42,14 @@ public class JavaBeanDef<T> {
 	 * @return 是否解析
 	 */
 	
-	public boolean concat(Field field) {
-		return map.containsKey(field);
+	public boolean fieldConcat(Field field) {
+		return filedMap.containsKey(field);
+	}
+	
+	
+	
+	public boolean methmodConcat(String methmodName) {
+		return methodMap.containsKey(methmodName);
 	}
 	
 	/**
@@ -63,7 +79,7 @@ public class JavaBeanDef<T> {
 	 */
 	private void setFieldValue(Object resource, Field field, Object value) throws DangerousoperationException {
 		hit(field);
-		unsafe.putObject(resource, map.get(field), value);
+		unsafe.putObject(resource, filedMap.get(field), value);
 	}
 	
 	/**
@@ -76,7 +92,7 @@ public class JavaBeanDef<T> {
 	 */
 	private Object getFieldValue(Object resource, Field field) throws DangerousoperationException {
 		hit(field);
-		return unsafe.getObject(resource, map.get(field));
+		return unsafe.getObject(resource, filedMap.get(field));
 	}
 	
 	/**
@@ -162,41 +178,71 @@ public class JavaBeanDef<T> {
 		return getAndSetObject(this.value, field, delta);
 	}
 	
+	//————————————————————————————————————Methmods————————————————————————————————————————————//
+	
+	/**
+	 * 通过methmodName获取一个方法
+	 *
+	 * @param methodName 方法名
+	 * @return 方法
+	 * @throws DangerousoperationException 未命中方法
+	 */
+	private Method getMethod(String methodName) throws DangerousoperationException {
+		assertsTrue(methmodConcat(methodName), "未命中目标方法");
+		return methodMap.get(methodName);
+	}
+	
+	/**
+	 * 执行一个方法
+	 *
+	 * @param methodName 方法名
+	 * @param args       方法参数名
+	 * @return 方法执行结果
+	 * @throws DangerousoperationException 危险的内存操作
+	 * @throws InvocationTargetException   调用目标异常
+	 * @throws IllegalAccessException      非法访问异常
+	 */
+	private Object invoke(String methodName, Object... args) throws DangerousoperationException, InvocationTargetException, IllegalAccessException {
+		final var method = getMethod(methodName);
+		method.setAccessible(true);
+		return method.invoke(this.value, args);
+	}
+	
 	private int getAndSetInt(Object resource, Field field, int newValue) throws DangerousoperationException {
 		hit(field);
-		asserts(field.getType() != int.class, "包装类型请使用getAndSetObject");
-		return unsafe.getAndSetInt(resource, map.get(field), newValue);
+		assertsTrue(field.getType() != int.class, "包装类型请使用getAndSetObject");
+		return unsafe.getAndSetInt(resource, filedMap.get(field), newValue);
 	}
 	
 	private long getAndSetLong(Object resource, Field field, long newValue) throws DangerousoperationException {
 		hit(field);
-		asserts(field.getType() != long.class, "包装类型请使用getAndSetObject");
-		return unsafe.getAndSetLong(resource, map.get(field), newValue);
+		assertsTrue(field.getType() != long.class, "包装类型请使用getAndSetObject");
+		return unsafe.getAndSetLong(resource, filedMap.get(field), newValue);
 	}
 	
 	private long getAndAddLong(Object resource, Field field, long delta) throws DangerousoperationException {
 		hit(field);
-		asserts(field.getType() != long.class, "包装类型请使用getAndSetObject");
-		return unsafe.getAndAddLong(resource, map.get(field), delta);
+		assertsTrue(field.getType() != long.class, "包装类型请使用getAndSetObject");
+		return unsafe.getAndAddLong(resource, filedMap.get(field), delta);
 	}
 	
 	private int getAndAddInt(Object resource, Field field, int delta) throws DangerousoperationException {
 		hit(field);
-		asserts(field.getType() != int.class, "包装类型请使用getAndSetObject");
-		return unsafe.getAndAddInt(resource, map.get(field), delta);
+		assertsTrue(field.getType() != int.class, "包装类型请使用getAndSetObject");
+		return unsafe.getAndAddInt(resource, filedMap.get(field), delta);
 	}
 	
 	private Object getAndSetObject(Object resource, Field field, Object newValue) throws DangerousoperationException {
 		hit(field);
-		return unsafe.getAndSetObject(resource, map.get(field), newValue);
+		return unsafe.getAndSetObject(resource, filedMap.get(field), newValue);
 	}
 	
 	private void hit(Field field) throws DangerousoperationException {
-		asserts(!concat(field), "未命中目标偏移量，无法继续");
+		assertsTrue(fieldConcat(field), "未命中目标偏移量，无法继续");
 	}
 	
-	private static void asserts(boolean asserts, String message) throws DangerousoperationException {
-		if (asserts) {
+	private static void assertsTrue(boolean expression, String message) throws DangerousoperationException {
+		if (!expression) {
 			throw new DangerousoperationException(message);
 		}
 	}
@@ -205,9 +251,10 @@ public class JavaBeanDef<T> {
 		return value;
 	}
 	
-	public static long allocateMemory(long bytes){
+	public static long allocateMemory(long bytes) {
 		return unsafe.allocateMemory(bytes);
 	}
+	
 	public static class DangerousoperationException extends Exception {
 		/**
 		 * Constructs a new exception with the specified detail message.  The
@@ -219,6 +266,24 @@ public class JavaBeanDef<T> {
 		 */
 		public DangerousoperationException(String message) {
 			super(message);
+		}
+		
+		/**
+		 * Constructs a new exception with the specified detail message and
+		 * cause.  <p>Note that the detail message associated with
+		 * {@code cause} is <i>not</i> automatically incorporated in
+		 * this exception's detail message.
+		 *
+		 * @param message the detail message (which is saved for later retrieval
+		 *                by the {@link #getMessage()} method).
+		 * @param cause   the cause (which is saved for later retrieval by the
+		 *                {@link #getCause()} method).  (A {@code null} value is
+		 *                permitted, and indicates that the cause is nonexistent or
+		 *                unknown.)
+		 * @since 1.4
+		 */
+		public DangerousoperationException(String message, Throwable cause) {
+			super(message, cause);
 		}
 	}
 	

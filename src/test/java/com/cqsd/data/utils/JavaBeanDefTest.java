@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 class JavaBeanDefTest {
 	@Test
 	void testBeanDef() throws NoSuchFieldException, JavaBeanDef.DangerousoperationException {
-		final var def = new JavaBeanDef<Employee>(Employee.class);
+		final var def = new JavaBeanDef<>(Employee.class,false);
+		def.setValue(def.newInstance());
 		final var employee = def.getValue();
 		final var name = Employee.class.getDeclaredField("name");
 		final var age = Employee.class.getDeclaredField("age");
-		
 		System.out.println(employee);
 		def.setFieldValue(name,"你好");
 		final var oldValue = def.getAndSetObject(age, 5);

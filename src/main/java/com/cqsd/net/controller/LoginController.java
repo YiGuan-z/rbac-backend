@@ -35,7 +35,7 @@ public class LoginController {
 	 */
 	@PostMapping(value = "/login/{t}")
 	@ResponseBody
-	public JsonResult<?> employeeLogin(@RequestBody User user, @PathVariable("t")Long verified) throws EmployeeService.LoginExeption {
+	public JsonResult<?> employeeLogin(@RequestBody User user, @PathVariable(value = "t" ,required = false)Long verified) throws EmployeeService.LoginExeption {
 		final var token = login(user.username(), user.password(), verified);
 		
 		return JsonResult.success(token);
